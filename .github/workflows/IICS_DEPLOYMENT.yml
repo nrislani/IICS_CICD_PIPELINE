@@ -94,6 +94,10 @@ jobs:
       - name: Set default username
         run: git config --global user.email "iicsdemocloud@gmail.com"; git config --global user.name "iicsdemocloud"
 
+      - name: see the LS command result
+        run: |
+            ls
+
       - name: Commit changes to UAT
         run: cd iicsdemocloud/IICS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
         # cd ${WORKSPACE}/IICS-CAI-APPS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
