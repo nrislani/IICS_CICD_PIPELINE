@@ -103,7 +103,7 @@ jobs:
             git init; git status
 
       - name: Commit changes to UAT
-        run: cd ./iicsdemocloud; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
+        run: cd ./iicsdemocloud/IICS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
         # cd ${WORKSPACE}/IICS-CAI-APPS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
 
       - name: Get latest UAT commit hash
