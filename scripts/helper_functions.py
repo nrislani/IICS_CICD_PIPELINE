@@ -31,12 +31,13 @@ def iics_login(login_domain, iics_username, iics_password):
     return data['userInfo']['sessionId']
 
 def iics_pull_by_commit(url, session_id, commit_hash):
-        
+    print('#######################################I AM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE#######################################')   
     HEADERS = {"Content-Type": "application/json; charset=utf-8", "INFA-SESSION-ID": session_id }
     BODY={ "commitHash": commit_hash}
 
     print("Syncing the commit " + commit_hash + " to the UAT ORG")
 
+    # Use the pullByCommitHash resource to retrieve objects that were modified by a particular commit and load them into your organization.
     # Sync Github and UAT Org
     p = requests.post(url + "/public/core/v3/pullByCommitHash", headers = HEADERS, json=BODY)
 
