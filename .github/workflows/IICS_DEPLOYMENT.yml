@@ -98,6 +98,10 @@ jobs:
         run: |
             ls
 
+      - name: see the PWD command result
+        run: |
+            pwd
+
       - name: see the fsck command result
         run: |
             git init; git status
