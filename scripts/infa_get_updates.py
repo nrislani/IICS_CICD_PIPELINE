@@ -35,7 +35,7 @@ if r.status_code != 200:
 request_json = r.json()
 print(f'MARCELLLLLLLLLLLLLLL {request_json}')
 # Only get Taskflows
-r_filtered = [x for x in request_json['changes'] if ( x['type'] == 'TASKFLOW') ]
+r_filtered = [x for x in request_json['changes'] if ( x['type'] == 'ZZZ') ]
 
 # This loop runs tests for each one of the mapping tasks
 for x in r_filtered:
