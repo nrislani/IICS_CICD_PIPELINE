@@ -42,10 +42,10 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       # Install python and dependent modules
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
       
@@ -70,19 +70,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           repository: iicsdemocloud/IICS
           ref: UAT
           token: ${{ secrets.GH_TOKEN }}
           path: IICS
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           path: IICS
 
       # Install python and dependent modules
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
       
