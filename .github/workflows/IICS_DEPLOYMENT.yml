@@ -98,6 +98,10 @@ jobs:
         run: |
             ls
 
+      - name: see the fsck command result
+        run: |
+            git fsck
+
       - name: Commit changes to UAT
         run: cd /IICS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
         # cd ${WORKSPACE}/IICS-CAI-APPS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
