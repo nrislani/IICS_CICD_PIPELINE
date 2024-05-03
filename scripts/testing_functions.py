@@ -14,7 +14,7 @@ import sys
 def test_mtt(url, session_id, app_context_id):
 
     HEADERS_V2 = {"Content-Type": "application/json; charset=utf-8", "icSessionId": session_id }
-    BODY = {"@type": "job","taskId": app_context_id,"taskType": "MTT"}
+    BODY = {"@type": "job","taskId": app_context_id,"taskType": "TASKFLOW"}
 
     t = requests.post(url + "/api/v2/job/", headers = HEADERS_V2, json = BODY )
 
