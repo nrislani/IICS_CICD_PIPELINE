@@ -59,7 +59,7 @@ jobs:
         run: |
             python ./scripts/infa_login.py
 
-      - name: Test Committed Mapping Tasks
+      - name: Test Committed Taskflows
         run: python ./scripts/infa_get_updates.py
 
   uat_commit:

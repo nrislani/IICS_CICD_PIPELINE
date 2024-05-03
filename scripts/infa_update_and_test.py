@@ -36,16 +36,16 @@ if r.status_code != 200:
     
 request_json = r.json()
 print(f'{request_json}')
-# Only get Mapping Tasks
-#r_filtered = [x for x in request_json['changes'] if ( x['type'] == 'MTT') ]
+# Only get Taskflowss
+r_filtered = [x for x in request_json['changes'] if ( x['type'] == 'TASKFLOW') ]
 
-# This loop runs tests for each one of the mapping tasks
-# This loop runs tests for each one of the mapping tasks
-#for x in r_filtered:
-    #state = test_mtt(URL, SESSION_ID, x['appContextId'])
+# This loop runs tests for each one of the taskflows
+# This loop runs tests for each one of the taskflows
+for x in r_filtered:
+    state = test_mtt(URL, SESSION_ID, x['appContextId'])
 
-    #if state != 0:
-    #   print("Testing failed")
-    #    exit(99)
+    if state != 0:
+       print("Testing failed")
+        exit(99)
 
 requests.post(URL + "/public/core/v3/logout", headers = HEADERS)
