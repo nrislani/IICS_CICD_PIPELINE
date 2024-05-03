@@ -65,14 +65,14 @@ jobs:
   uat_commit:
     name: Complete uat promotion
     environment:
-      name: uat
+      name: UAT
     needs: dev_build
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: mbamba210/IICS
+          repository: iicsdemocloud/IICS
           ref: UAT
           token: ${{ secrets.GH_TOKEN }}
           path: IICS
