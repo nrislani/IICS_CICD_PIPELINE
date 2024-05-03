@@ -95,15 +95,15 @@ jobs:
         run: git config --global user.email "iicsdemocloud@gmail.com"; git config --global user.name "iicsdemocloud"
 
       - name: Commit changes to UAT
-        run: cd ./IICS_CICD_PIPELINE_CODE; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
+        run: cd ./IICS_CICD_PIPELINE; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
         # cd ${WORKSPACE}/IICS-CAI-APPS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
 
       - name: Get latest UAT commit hash
-        run: cd ./IICS_CICD_PIPELINE_CODE; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
+        run: cd ./IICS_CICD_PIPELINE; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
       
       - name: Login to UAT
         run: |
-            python ./IICS_CICD_PIPELINE_CODE/scripts/infa_login.py
+            python ./IICS_CICD_PIPELINE/scripts/infa_login.py
 
       - name: Sync and test UAT deployment
-        run: python ./IICS_CICD_PIPELINE_CODE/scripts/infa_update_and_test.py
+        run: python ./IICS_CICD_PIPELINE/scripts/infa_update_and_test.py
