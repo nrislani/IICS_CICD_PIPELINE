@@ -33,7 +33,7 @@ if r.status_code != 200:
     exit(99)
     
 request_json = r.json()
-print(f'{request_json}')
+print(f'MARCELLLLLLLLLLLLLLL {request_json}')
 # Only get Mapping Tasks
 r_filtered = [x for x in request_json['changes'] if ( x['type'] == 'MTT') ]
 
