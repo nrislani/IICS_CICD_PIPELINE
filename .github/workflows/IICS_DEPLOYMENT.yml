@@ -73,7 +73,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: iicsdemocloud/IICS
-          ref: UAT
+          ref: DEV
           token: ${{ secrets.GH_TOKEN }}
           path: IICS
 
@@ -98,7 +98,7 @@ jobs:
         run: cd IICS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git push
 
       - name: Get latest UAT commit hash
-        run: cd IICS; pwd; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
+        run: cd IICS; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
       
       - name: Login to UAT
         run: |
