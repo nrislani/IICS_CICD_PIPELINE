@@ -3,119 +3,103 @@
 # and without representations or warrantees of any kind, is not supported by Informatica.
 # Users of this sample code in whole or in part or any extraction or derivative of it 
 # assume all the risks attendant thereto, and Informatica disclaims any/all liabilities 
-# arising from any such use to the fullest extent permitted by law..
+# arising from any such use to the fullest extent permitted by law.
 
-name: DEPLOY_MAPPING_TASK
+parameters:
+  - name: commit_hash
+    type: string
+  - name: source_env
+    type: string
+  - name: target_env
+    type: string
+  - name: team_kv
+    type: string
+  - name: external_repo
+    type: string
+    default: ""
 
-# Controls when the workflow will run
-on:
-  workflow_dispatch:
-    inputs:
-      committed_sha:
-        description: "Hash to deploy"
-        type: string
-        required: true
+stages:
+  - stage: Test
+    displayName: Review code in ${{ parameters.source_env }}
+    pool:
+      name: devops-local-pool
+    variables:
+      - group: ${{ parameters.team_kv }}
+      - name: source_login
+        value: $(${{ parameters.source_env }}-IICS-USERNAME)
+      - name: source_password
+        value: $(${{ parameters.source_env }}-IICS-PASSWORD)
+      - name: COMMIT_HASH
+        value: ${{ parameters.commit_hash }}
+      - name: IICS_LOGIN_URL
+        value: https://dm-us.informaticacloud.com
+      - name: IICS_POD_URL
+        value: https://na1.dm-us.informaticacloud.com/saas
+    jobs: 
+    - job: Run_Test
+      steps:
+        - task: CmdLine@2
+          name: install_requirements
+          inputs:
+            script:
+              python3 -m pip install --upgrade pip
+              pip install -r requirements.txt
+            failOnStderr: true
+        - task: CmdLine@2
+          name: get_objects_and_test
+          inputs:
+            script: python3 ./scripts/infa_get_updates.py
+            failOnStderr: true
+          env:
+            ### Handle lack of "_" in KV variables
+            IICS_USERNAME: $(source_login)
+            IICS_PASSWORD: $(source_password)
+  - stage: Deploy
+    displayName: Deploy to ${{ parameters.target_env }}
+    pool:
+      name: devops-local-pool
+    variables:
+      - group: ${{ parameters.team_kv }}
+      - name: target_login
+        value: $(${{ parameters.target_env }}_IICS_USERNAME)
+      - name: target_password
+        value: $(${{ parameters.target_env }}-IICS-PASSWORD)
+      - name: COMMIT_HASH
+        value: ${{ parameters.commit_hash }}
+      - name: repo
+        value: $ {{ parameters.external_repo}}
+      - name: IICS_LOGIN_URL
+        value: https://dm-us.informaticacloud.com
+      - name: IICS_POD_URL
+        value: https://na1.dm-us.informaticacloud.com/saas
+    jobs:
+      - job: commit_uat
+        displayName: Commit ${{ parameters.COMMIT_HASH }} to ${{ parameters.target_env}}
+        steps:
+          - checkout: self
+          - checkout: ${{ parameters.external_repo }}
+            condition: ${{ ne( variables.repo, '') }}
+            persistCredentials: "true"
 
-env:
-  IICS_LOGIN_URL: https://dm-em.informaticacloud.com
-  IICS_POD_URL: https://emw1.dm-em.informaticacloud.com/saas
- 
-  IICS_USERNAME: ${{ secrets.IICS_USERNAME }}
-  IICS_PASSWORD: ${{ secrets.IICS_PASSWORD }}
+          - task: CmdLine@2
+            name: cherry_pick_commit
+            inputs:
+              script: cd ./IICS; git switch UAT; git pull; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git push
 
-  UAT_IICS_USERNAME: ${{ secrets.UAT_IICS_USERNAME }}
-  UAT_IICS_PASSWORD: ${{ secrets.UAT_IICS_PASSWORD }}
-
-  # This is overriding until we connect the repository with a workflow_dispatch
-
-  COMMIT_HASH: ${{ github.event.inputs.committed_sha }}
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  dev_build:
-    name: Review Development Code
-    environment:
-      name: development
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      # Install python and dependent modules
-      - uses: actions/setup-python@v3
-        with:
-          python-version: '3.x'
-      
-      - name: Install python modules
-        run: |
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
-
-      # Runs a single command using the runners shell
-      - name: Login to development
-        run: |
-            python ./scripts/infa_login.py
-
-      - name: Test Committed Taskflows
-        run: python ./scripts/infa_get_updates.py
-
-  uat_commit:
-    name: Complete uat promotion
-    environment:
-      name: UAT
-    needs: dev_build
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          repository: iicsdemocloud/IICS
-          ref: DEV
-          token: ${{ secrets.GH_TOKEN }}
-          path: iicsdemocloud
-
-      #- uses: actions/checkout@v3
-      #  with:
-      #    path: iicsdemocloud
-
-      # Install python and dependent modules
-      - uses: actions/setup-python@v3
-        with:
-          python-version: '3.x'
-      
-      - name: Install python modules
-        run: |
-            python -m pip install --upgrade pip
-            pip install requests
-
-      - name: Set default username
-        run: git config --global user.email "iicsdemocloud@gmail.com"; git config --global user.name "iicsdemocloud"
-
-      - name: see the LS command result
-        run: |
-            ls
-
-      - name: see the PWD command result
-        run: |
-            pwd
-
-      - name: see the fsck command result
-        run: |
-            git init; git status
-
-      - name: Commit changes to UAT
-        run: cd ./IICS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
-        # cd ${WORKSPACE}/IICS-CAI-APPS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
-
-      - name: Get latest UAT commit hash
-        run: cd /home/runner/work/IICS_CICD_PIPELINE/IICS_CICD_PIPELINE; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
-      
-      - name: Login to UAT
-        run: |
-            python ./IICS_CICD_PIPELINE/scripts/infa_login.py
-
-      - name: Sync and test UAT deployment
-        run: python ./IICS_CICD_PIPELINE/scripts/infa_update_and_test.py
+          - task: CmdLine@2
+            name: get_latest_commit
+            displayName: Get latest commit
+            inputs:
+              script: cd ./IICS; git pull; echo "##vso[task.setvariable variable=UAT_COMMIT_HASH]$(git log -1 --pretty=format:%H)"
+              failOnStderr: true
+        
+          - task: CmdLine@2
+            name: sync_and_test_uat
+            displayName: Sync Github to ${{ parameters.target_env }} and Test assets
+            inputs:
+              script: python3 ./iics-promotion-pipeline/scripts/infa_update_and_test.py
+            env:
+              ### Handle lack of "_" in KV variables
+              UAT_IICS_USERNAME: $(target_login)
+              UAT_IICS_PASSWORD: $(target_password)
+              UAT_COMMIT_HASH: $(UAT_COMMIT_HASH)
