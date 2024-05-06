@@ -73,13 +73,16 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: iicsdemocloud/IICS
-          ref: DEV
+          type: github
+          endpoint: https://github.com/iicsdemocloud/IICS.git
+          name: iicsdemocloud/IICS
+          ref: UAT
           token: ${{ secrets.GH_TOKEN }}
           path: iicsdemocloud
 
-      #- uses: actions/checkout@v3
-      #  with:
-      #    path: iicsdemocloud
+      - uses: actions/checkout@v3
+        with:
+          path: iicsdemocloud
 
       # Install python and dependent modules
       - uses: actions/setup-python@v3
