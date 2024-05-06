@@ -76,9 +76,9 @@ jobs:
           type: github
           endpoint: https://github.com/iicsdemocloud/IICS.git
           name: iicsdemocloud/IICS
-          ref: UAT
+          #ref: UAT
           token: ${{ secrets.GH_TOKEN }}
-          path: iicsdemocloud
+          #path: iicsdemocloud
 
       - uses: actions/checkout@v3
         with:
