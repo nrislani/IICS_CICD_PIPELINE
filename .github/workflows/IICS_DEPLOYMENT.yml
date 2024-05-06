@@ -77,7 +77,6 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           path: iicsdemocloud
 
-
       - uses: actions/checkout@v3
         with:
           path: iicsdemocloud
@@ -93,7 +92,7 @@ jobs:
             pip install requests
 
       - name: Set default username
-        run: git config --global user.email "iicsdemocloud@gmail.com"; git config --global user.name "iicsdemocloud"
+        run: git config --global user.email "mbamba@informatica.com"; git config --global user.name "Marcel BAMBA"
 
       - name: Commit changes to UAT
         run: cd ./IICS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git push
@@ -103,7 +102,7 @@ jobs:
       
       - name: Login to UAT
         run: |
-            python ./IICS_CICD_PIPELINE/scripts/infa_login.py
+            python ./IICS_CICD_PIPELINE_CODE/scripts/infa_login.py
 
       - name: Sync and test UAT deployment
-        run: python ./IICS_CICD_PIPELINE/scripts/infa_update_and_test.py
+        run: python ./IICS_CICD_PIPELINE_CODE/scripts/infa_update_and_test.py
