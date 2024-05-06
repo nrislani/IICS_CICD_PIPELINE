@@ -4,7 +4,13 @@
 # Users of this sample code in whole or in part or any extraction or derivative of it 
 # assume all the risks attendant thereto, and Informatica disclaims any/all liabilities 
 # arising from any such use to the fullest extent permitted by law.
-
+on:
+  workflow_dispatch:
+    inputs:
+      committed_sha:
+        description: "Hash to deploy"
+        type: string
+        required: true
 parameters:
   - name: commit_hash
     type: string
