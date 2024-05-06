@@ -75,11 +75,11 @@ jobs:
           repository: iicsdemocloud/IICS
           ref: UAT
           token: ${{ secrets.GH_TOKEN }}
-          path: iicsdemocloud
+          path: IICS
 
       - uses: actions/checkout@v3
         with:
-          path: iicsdemocloud
+          path: IICS
 
       # Install python and dependent modules
       - uses: actions/setup-python@v3
@@ -95,10 +95,10 @@ jobs:
         run: git config --global user.email "iicsdemocloud@gmail.com"; git config --global user.name "iicsdemocloud"
 
       - name: Commit changes to UAT
-        run: cd ./IICS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git push
+        run: cd IICS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git push
 
       - name: Get latest UAT commit hash
-        run: cd ./IICS; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
+        run: cd IICS; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
       
       - name: Login to UAT
         run: |
