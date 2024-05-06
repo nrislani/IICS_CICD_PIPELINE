@@ -43,14 +43,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-        with:
-          repository: iicsdemocloud/IICS
-          type: github
-          endpoint: https://github.com/iicsdemocloud/IICS.git
-          name: iicsdemocloud/IICS
-          ref: UAT
-          token: ${{ secrets.GH_TOKEN }}
-          path: iicsdemocloud
 
       # Install python and dependent modules
       - uses: actions/setup-python@v3
