@@ -76,7 +76,6 @@ jobs:
           ref: UAT
           token: ${{ secrets.GH_TOKEN }}
           path: iicsdemocloud
-          run: cd ./IICS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
 
       #- uses: actions/checkout@v3
       #  with:
