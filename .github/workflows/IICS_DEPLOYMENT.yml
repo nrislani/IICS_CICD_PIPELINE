@@ -101,8 +101,7 @@ jobs:
         run: cd ./iicsrepo; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
       
       - name: Login to UAT
-        run: |
-            python ./IICS_CICD_PIPELINE/scripts/infa_login.py
+        run: python ./IICS_CICD_PIPELINE/scripts/infa_login.py
 
       - name: Sync and test UAT deployment
         run: python ./IICS_CICD_PIPELINE/scripts/infa_update_and_test.py
