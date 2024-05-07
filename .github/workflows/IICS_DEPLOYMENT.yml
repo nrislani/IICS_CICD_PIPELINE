@@ -73,7 +73,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: iicsdemocloud/iicsrepo
-          ref: DEV
+          ref: UAT
           token: ${{ secrets.GH_TOKEN }}
           path: iicsrepo
 
