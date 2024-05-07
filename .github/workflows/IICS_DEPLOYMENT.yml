@@ -3,7 +3,7 @@
 # and without representations or warrantees of any kind, is not supported by Informatica.
 # Users of this sample code in whole or in part or any extraction or derivative of it 
 # assume all the risks attendant thereto, and Informatica disclaims any/all liabilities 
-# arising from any such use to the fullest extent permitted by law..
+# arising from any such use to the fullest extent permitted by law.
 
 name: DEPLOY_MAPPING_TASK
 
@@ -72,14 +72,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: iicsdemocloud/IICS
+          repository: iicsdemocloud/iicsrepo
           ref: DEV
           token: ${{ secrets.GH_TOKEN }}
-          path: IICS
+          path: iicsrepo
 
       - uses: actions/checkout@v3
         with:
-          path: IICS
+          path: IICS_CICD_PIPELINE
 
       # Install python and dependent modules
       - uses: actions/setup-python@v3
@@ -92,17 +92,17 @@ jobs:
             pip install requests
 
       - name: Set default username
-        run: git config --global user.email "iicsdemocloud@gmail.com"; git config --global user.name "iicsdemocloud"
+        run: git config --global user.email "bbird@informatica.com"; git config --global user.name "Brandon Bird"
 
       - name: Commit changes to UAT
-        run: cd IICS; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git push
+        run: cd ./iicsrepo; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git push
 
       - name: Get latest UAT commit hash
-        run: cd IICS; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
+        run: cd ./iicsrepo; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
       
       - name: Login to UAT
         run: |
-            python ./IICS_CICD_PIPELINE_CODE/scripts/infa_login.py
+            python ./IICS_CICD_PIPELINE/scripts/infa_login.py
 
       - name: Sync and test UAT deployment
-        run: python ./IICS_CICD_PIPELINE_CODE/scripts/infa_update_and_test.py
+        run: python ./IICS_CICD_PIPELINE/scripts/infa_update_and_test.py
