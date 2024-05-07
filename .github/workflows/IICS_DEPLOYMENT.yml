@@ -99,7 +99,10 @@ jobs:
 
       - name: Get latest UAT commit hash
         run: cd ./iicsrepo; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
-      
+          
+      - name: get the folder path and the contain
+        run: pwd
+          
       - name: Login to UAT
         run: python ./IICS_CICD_PIPELINE/scripts/infa_login.py
 
