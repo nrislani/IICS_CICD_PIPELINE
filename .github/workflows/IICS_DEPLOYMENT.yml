@@ -62,12 +62,6 @@ jobs:
       - name: Test Committed Mapping Tasks
         run: python ./scripts/infa_get_updates.py
 
-      - name: Delete iicsrepo directory if it exists
-        run: |
-          if [ -d "iicsrepo" ]; then
-            rm -rf iicsrepo
-          fi
-
   uat_commit:
     name: Complete uat promotion
     environment:
