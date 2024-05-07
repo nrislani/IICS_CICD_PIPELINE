@@ -46,6 +46,6 @@ for x in r_filtered:
 
     if state != 0:
        print("Testing failed")
-        exit(99)
+       exit(99)
 
 requests.post(URL + "/public/core/v3/logout", headers = HEADERS)
