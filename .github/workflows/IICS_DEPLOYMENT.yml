@@ -102,7 +102,7 @@ jobs:
       
       - name: Login to UAT
         run: |
-            python ./scripts/infa_login.py
+            python scripts/infa_login.py
 
       - name: Sync and test UAT deployment
-        run: python ./scripts/infa_update_and_test.py
+        run: python scripts/infa_update_and_test.py
