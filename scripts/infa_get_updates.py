@@ -33,7 +33,6 @@ if r.status_code != 200:
     exit(99)
     
 request_json = r.json()
-print(f'MARCELLLLLLLLLLLLLLL {request_json}')
 # Only get Taskflows
 r_filtered = [x for x in request_json['changes'] if ( x['type'] == 'ZZZ') ]
 
