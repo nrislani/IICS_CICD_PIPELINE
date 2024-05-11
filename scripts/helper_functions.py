@@ -30,8 +30,7 @@ def iics_login(login_domain, iics_username, iics_password):
     # return sessionId
     return data['userInfo']['sessionId']
 
-def iics_pull_by_commit(url, session_id, commit_hash):
-    print('#######################################I AM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE#######################################')   
+def iics_pull_by_commit(url, session_id, commit_hash):  
     HEADERS = {"Content-Type": "application/json; charset=utf-8", "INFA-SESSION-ID": session_id }
     BODY={ "commitHash": commit_hash}
 
