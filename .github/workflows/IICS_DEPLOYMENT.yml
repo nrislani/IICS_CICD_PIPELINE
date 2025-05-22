@@ -72,10 +72,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: iicsdemocloud/iicsrepo
-          ref: UAT
+          repository: nrislani/iics
+          ref: dev2
           token: ${{ secrets.GH_TOKEN }}
-          path: iicsrepo # Clones the iicsrepo repository into the iicsrepo directory
+          path: iics # Clones the iicsrepo repository into the iicsrepo directory
 
       - uses: actions/checkout@v3
         with:
@@ -92,13 +92,13 @@ jobs:
             pip install requests
 
       - name: Set default username
-        run: git config --global user.email "iicsdemocloud@gmail.com"; git config --global user.name "iicsdemocloud"
+        run: git config --global user.email "nrislani@informatica.com"; git config --global user.name "nrislani"
 
       - name: Commit changes to UAT
-        run: cd ./iicsrepo; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
+        run: cd ./iics; git fetch --all; git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH}; git pull; git push
 
       - name: Get latest UAT commit hash
-        run: cd ./iicsrepo; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
+        run: cd ./iics; git pull; echo "UAT_COMMIT_HASH=$(git log -1 --pretty=format:%H)" >> $GITHUB_ENV
           
       - name: get the folder path and the contain
         run: pwd
