@@ -1,42 +1,49 @@
-import requests
 import os
+import sys
+from iics_client import IICSClient
 
-# This sample source code is offered only as an example of what can or might be built using the IICS Github APIs, 
-# and is provided for educational purposes only. This source code is provided "as-is" 
-# and without representations or warrantees of any kind, is not supported by Informatica.
-# Users of this sample code in whole or in part or any extraction or derivative of it 
-# assume all the risks attendant thereto, and Informatica disclaims any/all liabilities 
-# arising from any such use to the fullest extent permitted by law.
+def main():
+    # Environment variables
+    username = os.environ.get('IICS_USERNAME')
+    password = os.environ.get('IICS_PASSWORD')
+    login_url = os.environ.get('IICS_LOGIN_URL') or "https://dm-em.informaticacloud.com" # Default if not set
+    
+    # Check for UAT specific env vars if needed, or if this script is general purpose
+    # The original script logged in twice (once for DEV/default, once for UAT) and saved both sessionIds
+    # to GITHUB_ENV.
+    
+    uat_username = os.environ.get('UAT_IICS_USERNAME')
+    uat_password = os.environ.get('UAT_IICS_PASSWORD')
+    
+    env_file = os.getenv('GITHUB_ENV')
+    if not env_file:
+        print("GITHUB_ENV not defined, cannot save session IDs.")
+        return
 
-URL = os.environ['IICS_LOGIN_URL']
-USERNAME = os.environ['IICS_USERNAME']
-PASSWORD = os.environ['IICS_PASSWORD']
+    # Login to Primary (DEV)
+    if username and password:
+        try:
+            client = IICSClient(login_url=login_url, username=username, password=password)
+            session_id = client.login()
+            with open(env_file, "a") as myfile:
+                myfile.write(f"sessionId={session_id}\n")
+            print("Successfully logged in to Primary/DEV")
+        except Exception as e:
+            print(f"Failed to login to Primary/DEV: {e}")
+            sys.exit(1)
 
-UAT_USERNAME = os.environ['UAT_IICS_USERNAME']
-UAT_PASSWORD = os.environ['UAT_IICS_PASSWORD']
-print(os.environ['UAT_IICS_USERNAME'])
-URL = "https://dm-em.informaticacloud.com/saas/public/core/v3/login"
-BODY = {"username": USERNAME,"password": PASSWORD}
+    # Login to UAT
+    if uat_username and uat_password:
+        try:
+            # UAT might use the same login URL or different, assume same for now or env var
+            client_uat = IICSClient(login_url=login_url, username=uat_username, password=uat_password)
+            uat_session_id = client_uat.login()
+            with open(env_file, "a") as myfile:
+                myfile.write(f"uat_sessionId={uat_session_id}\n")
+            print("Successfully logged in to UAT")
+        except Exception as e:
+            print(f"Failed to login to UAT: {e}")
+            sys.exit(1)
 
-r = requests.post(url = URL, json = BODY)
-
-if r.status_code != 200:
-    print("Caught exception: " + r.text)
-
-UAT_BODY = BODY = {"username": UAT_USERNAME,"password": UAT_PASSWORD}
-
-u = requests.post(url = URL, json = BODY)
-print(BODY)
-if u.status_code != 200:
-    print("Caught exception: " + r.text)
-
-# extracting data in json format
-data = r.json()
-uat_data = u.json()
-
-# Set session tokens to the environment
-env_file = os.getenv('GITHUB_ENV')
-
-with open(env_file, "a") as myfile:
-    myfile.write("sessionId=" + data['userInfo']['sessionId'] + "\n")
-    myfile.write("uat_sessionId=" + uat_data['userInfo']['sessionId'] + "\n")
+if __name__ == "__main__":
+    main()

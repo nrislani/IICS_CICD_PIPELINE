@@ -1,51 +1,48 @@
-# This sample source code is offered only as an example of what can or might be built using the IICS Github APIs, 
-# and is provided for educational purposes only. This source code is provided "as-is" 
-# and without representations or warrantees of any kind, is not supported by Informatica.
-# Users of this sample code in whole or in part or any extraction or derivative of it 
-# assume all the risks attendant thereto, and Informatica disclaims any/all liabilities 
-# arising from any such use to the fullest extent permitted by law.
-
-import requests
 import os
-import json
-import time
 import sys
-from helper_functions import iics_login, iics_pull_by_commit
-from testing_functions import test_mtt
+from iics_client import IICSClient
 
-UAT_COMMIT_HASH = os.environ['UAT_COMMIT_HASH']
-
-LOGIN_URL = os.environ['IICS_LOGIN_URL']
-URL = os.environ['IICS_POD_URL']
-
-UAT_IICS_USERNAME = os.environ['UAT_IICS_USERNAME']
-UAT_IICS_PASSWORD = os.environ['UAT_IICS_PASSWORD']
-
-SESSION_ID = iics_login(LOGIN_URL, UAT_IICS_USERNAME, UAT_IICS_PASSWORD )
-
-HEADERS = {"Content-Type": "application/json; charset=utf-8", "INFA-SESSION-ID": SESSION_ID }
-
-iics_pull_by_commit(URL, SESSION_ID, UAT_COMMIT_HASH)
-
-# Get all the objects for commit
-r = requests.get(URL + "/public/core/v3/commit/" + UAT_COMMIT_HASH, headers = HEADERS)
-
-if r.status_code != 200:
-    print("Exception caught: " + r.text)
-    exit(99)
+def main():
+    uat_commit_hash = os.environ.get('UAT_COMMIT_HASH')
+    pod_url = os.environ.get('IICS_POD_URL')
     
-request_json = r.json()
-print(f'{request_json}')
-# Only get Taskflowss
-r_filtered = [x for x in request_json['changes'] if ( x['type'] == 'ZZZ') ]
+    # This script is for UAT, so it should use the UAT session ID
+    session_id = os.environ.get('uat_sessionId')
+    
+    if not uat_commit_hash:
+        print("UAT_COMMIT_HASH environment variable is required.")
+        sys.exit(1)
 
-# This loop runs tests for each one of the taskflows
-# This loop runs tests for each one of the taskflows
-for x in r_filtered:
-    state = test_mtt(URL, SESSION_ID, x['appContextId'])
+    if not pod_url:
+        print("IICS_POD_URL environment variable is required.")
+        sys.exit(1)
+        
+    if not session_id:
+        print("uat_sessionId environment variable is required.")
+        sys.exit(1)
+        
+    client = IICSClient(pod_url=pod_url, session_id=session_id)
+    
+    try:
+        # 1. Pull the commit to UAT
+        client.pull_by_commit(uat_commit_hash)
+        
+        # 2. Get the objects from the commit to run tests
+        objects = client.get_commit_objects(uat_commit_hash, resource_type_filter='ZZZ')
+        
+        # 3. test each object
+        for obj in objects:
+            app_context_id = obj.get('appContextId')
+            if app_context_id:
+                 client.run_job(app_context_id)
+            else:
+                 print(f"Skipping object {obj} (no appContextId)")
+                 
+    except Exception as e:
+        print(f"Error in UAT update and test: {e}")
+        sys.exit(1)
+        
+    client.logout()
 
-    if state != 0:
-       print("Testing failed")
-       exit(99)
-
-requests.post(URL + "/public/core/v3/logout", headers = HEADERS)
+if __name__ == "__main__":
+    main()

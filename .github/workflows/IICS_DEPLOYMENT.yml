@@ -15,6 +15,11 @@ on:
         description: "Hash to deploy"
         type: string
         required: true
+      repo_name:
+        description: "Repository Name (owner/repo)"
+        type: string
+        required: true
+        default: "nrislani/iics"
 
 env:
   IICS_LOGIN_URL: https://dm-em.informaticacloud.com
@@ -29,7 +34,9 @@ env:
   # This is overriding until we connect the repository with a workflow_dispatch
 
   COMMIT_HASH: ${{ github.event.inputs.committed_sha }}
+  REPO_NAME: ${{ github.event.inputs.repo_name }}
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   dev_build:
@@ -72,7 +79,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: nrislani/iics
+          repository: ${{ env.REPO_NAME }}
           ref: dev2
           token: ${{ secrets.GH_TOKEN }}
           path: iics # Clones the iicsrepo repository into the iicsrepo directory
@@ -89,7 +96,7 @@ jobs:
       - name: Install python modules
         run: |
             python -m pip install --upgrade pip
-            pip install requests
+            pip install -r IICS_CICD_PIPELINE/requirements.txt
 
       - name: Set default username
         run: git config --global user.email "nrislani@informatica.com"; git config --global user.name "nrislani"

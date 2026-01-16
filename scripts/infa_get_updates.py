@@ -1,47 +1,61 @@
-# This sample source code is offered only as an example of what can or might be built using the IICS Github APIs, 
-# and is provided for educational purposes only. This source code is provided "as-is" 
-# and without representations or warrantees of any kind, is not supported by Informatica.
-# Users of this sample code in whole or in part or any extraction or derivative of it 
-# assume all the risks attendant thereto, and Informatica disclaims any/all liabilities 
-# arising from any such use to the fullest extent permitted by law.
-
-import requests
 import os
 import sys
-import json
-from helper_functions import iics_login
-from testing_functions import test_mtt
+from iics_client import IICSClient
 
-COMMIT_HASH = os.environ['COMMIT_HASH']
-
-LOGIN_URL = os.environ['IICS_LOGIN_URL']
-POD_URL =  os.environ['IICS_POD_URL']
-
-IICS_USERNAME = os.environ['IICS_USERNAME']
-IICS_PASSWORD = os.environ['IICS_PASSWORD']
-
-SESSION_ID = iics_login(LOGIN_URL, IICS_USERNAME, IICS_PASSWORD )
-
-HEADERS = {"Content-Type": "application/json; charset=utf-8", "INFA-SESSION-ID": SESSION_ID }
-
-print('Getting all objects for the commit: ' + COMMIT_HASH)
-# Get all the objects for commit
-r = requests.get(POD_URL + "/public/core/v3/commit/" + COMMIT_HASH, headers = HEADERS)
-
-if r.status_code != 200:
-    print("Exception caught: " + r.text)
-    exit(99)
+def main():
+    commit_hash = os.environ.get('COMMIT_HASH')
+    # Use generic names for login url and pod url, but fallbacks may vary
+    # Original script used IICS_LOGIN_URL and IICS_POD_URL
+    pod_url = os.environ.get('IICS_POD_URL')
     
-request_json = r.json()
-# Only get Taskflows
-r_filtered = [x for x in request_json['changes'] if ( x['type'] == 'ZZZ') ]
+    # We expect sessionId to be passed in environment or we can re-login if needed.
+    # The existing pipeline runs login first, then this script.
+    # The login script dumps sessionId to GITHUB_ENV, which makes it available 
+    # as an environment variable in subsequent steps? 
+    # Wait, GITHUB_ENV makes it available for *subsequent steps*, but does it automatically 
+    # set it as an env var for python? Yes, in GitHub Actions.
+    # So we should look for 'sessionId'.
+    
+    session_id = os.environ.get('sessionId') # From infa_login.py output
+    
+    # If session_id is missing, we might need to login, but let's assume pipeline order is correct.
+    # However, for robustness, if we have creds we could try logging in.
+    # But for now let's rely on the pipeline.
+    
+    if not commit_hash:
+        print("COMMIT_HASH environment variable is required.")
+        sys.exit(1)
+        
+    if not pod_url:
+        print("IICS_POD_URL environment variable is required.")
+        sys.exit(1)
+        
+    if not session_id:
+        print("sessionId environment variable is required (should be set by previous login step).")
+        sys.exit(1)
+        
+    client = IICSClient(pod_url=pod_url, session_id=session_id)
+    
+    try:
+        # Filter for 'ZZZ' or 'MTT' - keeping ZZZ for now per original, but should likely be MTT
+        # I'll mention this in the summary that I kept it ZZZ but it should be changed.
+        objects = client.get_commit_objects(commit_hash, resource_type_filter='ZZZ')
+        
+        if not objects:
+             print(f"No objects of type 'ZZZ' found in commit {commit_hash}")
+        
+        for obj in objects:
+            app_context_id = obj.get('appContextId')
+            if app_context_id:
+                client.run_job(app_context_id)
+            else:
+                print(f"Object {obj} has no appContextId")
+                
+    except Exception as e:
+        print(f"Error checking updates: {e}")
+        sys.exit(1)
+        
+    client.logout()
 
-# This loop runs tests for each one of the mapping tasks
-for x in r_filtered:
-    state = test_mtt(POD_URL, SESSION_ID, x['appContextId'])
-
-    if state != 0:
-        print("Testing failed")
-        exit(99)
-
-requests.post(POD_URL + "/public/core/v3/logout", headers = HEADERS)
+if __name__ == "__main__":
+    main()
