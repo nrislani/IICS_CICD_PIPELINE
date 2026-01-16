@@ -207,3 +207,50 @@ class IICSClient:
             except Exception as e:
                 logger.warning(f"Logout failed (might already be expired): {e}")
 
+    def rollback_mapping(self, path_name, mapping_name, object_type="DTEMPLATE"):
+        """
+        Rolls back a mapping to its previous commit version.
+        """
+        if not self.pod_url or not self.session_id:
+            raise ValueError("Pod URL and Session ID are required.")
+
+        logger.info(f"Rolling back mapping {mapping_name} in path {path_name}")
+
+        # 1. Get commit history to find previous hash
+        # NOTE: Query uses 'DTemplate' while body uses 'DTEMPLATE' in original code. 
+        # I'll stick to what was there but clean it up.
+        query = f"path=='{path_name}/{mapping_name}' and type=='{object_type}'"
+        history_url = f"{self.pod_url}/public/core/v3/commitHistory?q={query}"
+        
+        try:
+            r = requests.get(history_url, headers=self.headers)
+            r.raise_for_status()
+            commit_json = r.json()
+            
+            if len(commit_json.get('commits', [])) < 2:
+                raise Exception("No previous commit found to rollback to.")
+                
+            previous_hash = commit_json['commits'][1]['hash']
+            
+            # 2. Lookup object to get ID
+            lookup_url = f"{self.pod_url}/public/core/v3/lookup"
+            body = {"objects": [{"path": f"{path_name}/{mapping_name}", "type": object_type.upper()}]}
+            
+            o = requests.post(lookup_url, headers=self.headers, json=body)
+            o.raise_for_status()
+            object_json = o.json()
+            
+            if not object_json.get('objects'):
+                raise Exception(f"Object {mapping_name} not found in path {path_name}")
+                
+            object_id = object_json['objects'][0]['id']
+            
+            logger.info(f"Previous hash found: {previous_hash}. Object ID: {object_id}")
+            
+            # 3. Pull previous version
+            return self.pull_by_commit_object(previous_hash, object_id)
+            
+        except Exception as e:
+            logger.error(f"Rollback failed: {e}")
+            raise
+
