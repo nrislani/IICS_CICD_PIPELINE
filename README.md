@@ -38,11 +38,10 @@ The workflow uses the following environment variables (defined in `.github/workf
 The `scripts/` directory contains the Python logic for interacting with the IICS API.
 
 - **`iics_client.py`**: The core class handling authentication, API, and job execution.
-- **`infa_login.py`**: Handles login to both environments and sets session IDs for the workflow.
-- **`infa_get_updates.py`**: Retrieves changed objects from a commit and triggers jobs/tests in Dev.
-- **`infa_update_and_test.py`**: Pulls changes to UAT and triggers jobs/tests.
-- **`helper_functions.py`**: (Deprecated) Legacy helper functions.
-- **`testing_functions.py`**: (Deprecated) Legacy testing functions.
+- **`iics_auth.py`**: Handles login to both environments and sets session IDs for the workflow.
+- **`deploy_dev.py`**: Retrieves changed objects from a commit and triggers jobs/tests in Dev.
+- **`deploy_uat.py`**: Pulls changes to UAT and triggers jobs/tests.
+- **`rollback_asset.py`**: Handles rolling back a specific mapping task to a previous version.
 
 ## Implementation Details
 

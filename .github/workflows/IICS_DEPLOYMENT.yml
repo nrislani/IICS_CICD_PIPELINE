@@ -64,10 +64,10 @@ jobs:
       # Runs a single command using the runners shell
       - name: Login to development
         run: |
-            python ./scripts/infa_login.py
+            python ./scripts/iics_auth.py
 
       - name: Test Committed Mapping Tasks
-        run: python ./scripts/infa_get_updates.py
+        run: python ./scripts/deploy_dev.py
 
   uat_commit:
     name: Complete uat promotion
@@ -111,7 +111,7 @@ jobs:
         run: pwd
           
       - name: Login to UAT
-        run: python ./IICS_CICD_PIPELINE/scripts/infa_login.py
+        run: python ./IICS_CICD_PIPELINE/scripts/iics_auth.py
 
       - name: Sync and test UAT deployment
-        run: python ./IICS_CICD_PIPELINE/scripts/infa_update_and_test.py
+        run: python ./IICS_CICD_PIPELINE/scripts/deploy_uat.py
