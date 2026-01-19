@@ -1,63 +1,158 @@
 # IICS CI/CD Pipeline
 
-This repository contains a CI/CD pipeline for Informatica Intelligent Cloud Services (IICS) using GitHub Actions. It automates the promotion of assets from a Development environment to a UAT environment.
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Overview
+A CI/CD pipeline for **Informatica Intelligent Cloud Services (IICS)** using GitHub Actions. Automates the promotion of assets from Development to UAT environments.
 
-The pipeline implements the following workflow:
-1.  **Development Review**: Checks out code, logs into the IICS Development organization, and runs tests on the committed mapping tasks.
-2.  **UAT Promotion**: Merges changes into a `dev` branch (simulated via cherry-pick in the script), logs into the UAT organization, pulls the changes using the commit hash, and tests the deployed assets.
+## 🔄 Pipeline Flow
 
-## Prerequisites
+```mermaid
+flowchart LR
+    subgraph DEV["Development"]
+        A[Commit] --> B[Login to DEV]
+        B --> C[Get Changed Objects]
+        C --> D[Run Tests]
+    end
+    
+    subgraph UAT["UAT Promotion"]
+        D --> E[Cherry-pick to UAT branch]
+        E --> F[Login to UAT]
+        F --> G[Pull Changes via API]
+        G --> H[Run Validation Tests]
+    end
+    
+    H --> I{Success?}
+    I -->|Yes| J[✅ Deployed]
+    I -->|No| K[🔄 Rollback Available]
+```
 
-### 1. IICS Environments
-You need access to two IICS organizations (or environments within one):
-- **Development** (Source)
-- **UAT** (Target)
+## 🚀 Quick Start
 
-### 2. GitHub Secrets
-Configure the following secrets in your GitHub repository:
+### Prerequisites
 
-| Secret Name | Description |
-|Data Type| String |
-|Parameters| |
-|---|---|
-| `IICS_USERNAME` | Username for the Development Org |
-| `IICS_PASSWORD` | Password for the Development Org |
-| `UAT_IICS_USERNAME` | Username for the UAT Org |
-| `UAT_IICS_PASSWORD` | Password for the UAT Org |
-| `GH_TOKEN` | Personal Access Token for git operations (fetching/pushing) |
+1. **IICS Environments**: Access to Development and UAT organizations
+2. **GitHub Secrets**: Configure in repository settings
 
-### 3. Environment Variables
-The workflow uses the following environment variables (defined in `.github/workflows/IICS_DEPLOYMENT.yml`):
-- `IICS_LOGIN_URL`: The login URL for IICS (e.g., `https://dm-em.informaticacloud.com`)
-- `IICS_POD_URL`: The POD URL for your org (e.g., `https://emw1.dm-em.informaticacloud.com/saas`)
+| Secret | Description |
+|--------|-------------|
+| `IICS_USERNAME` | Development Org username |
+| `IICS_PASSWORD` | Development Org password |
+| `UAT_IICS_USERNAME` | UAT Org username |
+| `UAT_IICS_PASSWORD` | UAT Org password |
+| `GH_TOKEN` | Personal Access Token for git operations |
 
-## Scripts Structure
+### Installation
 
-The `scripts/` directory contains the Python logic for interacting with the IICS API.
+```bash
+# Clone repository
+git clone https://github.com/nrislani/IICS_CICD_PIPELINE.git
+cd IICS_CICD_PIPELINE
 
-- **`iics_client.py`**: The core class handling authentication, API, and job execution.
-- **`iics_auth.py`**: Handles login to both environments and sets session IDs for the workflow.
-- **`deploy_dev.py`**: Retrieves changed objects from a commit and triggers jobs/tests in Dev.
-- **`deploy_uat.py`**: Pulls changes to UAT and triggers jobs/tests.
-- **`rollback_asset.py`**: Handles rolling back a specific mapping task to a previous version.
+# Install dependencies
+pip install -r requirements.txt
 
-## Implementation Details
+# For development (with test tools)
+pip install -e ".[dev]"
+```
 
-The pipeline uses the IICS REST API v3 for source control operations and v2 for job execution.
+### Trigger Deployment
 
-### Important Note on Object Filtering
-Currently, the scripts filter for objects with type `ZZZ`. This is a placeholder. You should verify the correct type for your assets (e.g., `MTT` for Mapping Task, `DSS` for Synchronization Task) and update the scripts or the workflow inputs accordingly.
+1. Go to **Actions** tab in GitHub
+2. Select **DEPLOY_MAPPING_TASK** workflow
+3. Click **Run workflow** with:
+   - **Commit Hash**: The hash to promote
+   - **Repository Name**: `owner/repo` (default: `nrislani/iics`)
+   - **Resource Type**: `MTT` (Mapping Task) or `DSS` (Sync Task)
 
-## Setup
+## 📁 Project Structure
 
-1.  Clone this repository.
-2.  Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-3.  Set up the Secrets in GitHub.
-4.  Trigger the workflow manually (`workflow_dispatch`) with:
-    - **Commit Hash**: The hash you want to promote.
-    - **Repository Name**: The `owner/repo` where the assets reside (defaults to `nrislani/iics`).
+```
+IICS_CICD_PIPELINE/
+├── .github/
+│   └── workflows/
+│       └── IICS_DEPLOYMENT.yml    # Main pipeline workflow
+├── scripts/
+│   ├── config.py                  # Centralized configuration
+│   ├── exceptions.py              # Custom exception classes
+│   ├── iics_client.py             # Core API client with retry logic
+│   ├── iics_auth.py               # Authentication handler
+│   ├── deploy_dev.py              # Development deployment script
+│   ├── deploy_uat.py              # UAT deployment script
+│   ├── rollback_asset.py          # Rollback functionality
+│   └── tests/                     # Unit tests
+│       ├── conftest.py
+│       └── test_iics_client.py
+├── pyproject.toml                 # Project configuration
+├── requirements.txt               # Dependencies
+└── README.md
+```
+
+## ⚙️ Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `IICS_LOGIN_URL` | `https://dm-em.informaticacloud.com` | IICS login endpoint |
+| `IICS_POD_URL` | - | Pod URL for API calls |
+| `RESOURCE_TYPE` | `MTT` | Asset type filter (`MTT`, `DSS`, etc.) |
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=scripts --cov-report=html
+
+# Run specific test file
+pytest scripts/tests/test_iics_client.py -v
+```
+
+## 🔧 Development
+
+```bash
+# Lint code
+ruff check scripts/
+
+# Format code
+black scripts/
+
+# Type checking (optional)
+mypy scripts/
+```
+
+## 📋 Resource Types
+
+| Code | Description |
+|------|-------------|
+| `MTT` | Mapping Task |
+| `DSS` | Data Synchronization Task |
+| `DTEMPLATE` | Design Template (Mapping) |
+
+## 🔄 Rollback
+
+To rollback a mapping to its previous version:
+
+```bash
+export IICS_POD_URL="https://your-pod.informaticacloud.com/saas"
+export UAT_IICS_USERNAME="your-username"
+export UAT_IICS_PASSWORD="your-password"
+export PATH_NAME="/Project/Folder"
+export OBJECT_NAME="MappingName"
+
+python scripts/rollback_asset.py
+```
+
+## 📝 License
+
+This project is provided as-is for educational purposes. See Informatica's licensing terms for IICS API usage.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Run tests (`pytest`)
+4. Commit changes (`git commit -m 'Add amazing feature'`)
+5. Push to branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request

@@ -27,8 +27,9 @@ def main():
         # 1. Pull the commit to UAT
         client.pull_by_commit(uat_commit_hash)
         
-        # 2. Get the objects from the commit to run tests
-        objects = client.get_commit_objects(uat_commit_hash, resource_type_filter='ZZZ')
+        # Get resource type from env (MTT=Mapping Task, DSS=Sync Task, etc.)
+        resource_type = os.environ.get('RESOURCE_TYPE', 'MTT')
+        objects = client.get_commit_objects(uat_commit_hash, resource_type_filter=resource_type)
         
         # 3. test each object
         for obj in objects:
