@@ -31,10 +31,12 @@ def main():
 
         try:
             client = IICSClient(login_url=login_url, username=username, password=password)
-            session_id = client.login()
+            session_id, base_api_url = client.login()
             if env_file:
                 with open(env_file, "a") as myfile:
                     myfile.write(f"sessionId={session_id}\n")
+                    if base_api_url:
+                        myfile.write(f"IICS_POD_URL={base_api_url}\n")
             print("Successfully logged in to Primary/DEV")
         except Exception as e:
             print(f"Failed to login to Primary/DEV: {e}")
@@ -55,10 +57,16 @@ def main():
         try:
             # UAT might use the same login URL or different, assume same for now or env var
             client_uat = IICSClient(login_url=login_url, username=uat_username, password=uat_password)
-            uat_session_id = client_uat.login()
+            uat_session_id, uat_base_api_url = client_uat.login()
             if env_file:
                 with open(env_file, "a") as myfile:
                     myfile.write(f"uat_sessionId={uat_session_id}\n")
+                    if uat_base_api_url:
+                        # For UAT, we might want to overwrite IICS_POD_URL or use a specific one.
+                        # Since deploy_uat.py uses IICS_POD_URL, and runs in a separate job/step 
+                        # where DEV envs might not be active or we want to target UAT, overwriting is correct 
+                        # for the context of the UAT job.
+                        myfile.write(f"IICS_POD_URL={uat_base_api_url}\n")
             print("Successfully logged in to UAT")
         except Exception as e:
             print(f"Failed to login to UAT: {e}")

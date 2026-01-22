@@ -74,8 +74,14 @@ class IICSClient:
             self.headers["INFA-SESSION-ID"] = self.session_id
             self.headers["icSessionId"] = self.session_id
             
+            # Extract baseApiUrl
+            base_api_url = data.get('products', [{}])[0].get('baseApiUrl')
+            if base_api_url:
+                self.pod_url = base_api_url
+                logger.info(f"Updated POD URL to: {self.pod_url}")
+            
             logger.info("Login successful")
-            return self.session_id
+            return self.session_id, self.pod_url
         except requests.RequestException as e:
             logger.error(f"Login failed: {e}")
             if hasattr(e, 'response') and e.response is not None:
