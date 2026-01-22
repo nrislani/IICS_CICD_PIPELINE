@@ -47,7 +47,7 @@ jobs:
   dev_build:
     name: Review Development Code
     environment:
-      name: development
+      name: IICS_USERNAME
     if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, 'deploy') }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -81,7 +81,7 @@ jobs:
   uat_commit:
     name: Complete uat promotion
     environment:
-      name: uat
+      name: IICS_USERNAME
     if: ${{ github.event_name == 'workflow_dispatch' }}
     needs: dev_build
     runs-on: ubuntu-latest
