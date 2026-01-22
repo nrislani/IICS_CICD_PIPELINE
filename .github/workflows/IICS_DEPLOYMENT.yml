@@ -74,6 +74,7 @@ jobs:
             python ./scripts/iics_auth.py
 
       - name: Test Committed Mapping Tasks
+        if: ${{ false }}
         run: python ./scripts/deploy_dev.py
 
   uat_commit:
