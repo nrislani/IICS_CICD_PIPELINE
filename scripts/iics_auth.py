@@ -1,16 +1,18 @@
 import os
 import sys
+import argparse
 from iics_client import IICSClient
 
 def main():
+    parser = argparse.ArgumentParser(description='IICS Authentication Script')
+    parser.add_argument('--target', choices=['dev', 'uat', 'all'], default='all',
+                        help='Target environment to login to (default: all)')
+    args = parser.parse_args()
+
     # Environment variables
     username = os.environ.get('IICS_USERNAME')
     password = os.environ.get('IICS_PASSWORD')
     login_url = os.environ.get('IICS_LOGIN_URL') or "https://dm-em.informaticacloud.com" # Default if not set
-    
-    # Check for UAT specific env vars if needed, or if this script is general purpose
-    # The original script logged in twice (once for DEV/default, once for UAT) and saved both sessionIds
-    # to GITHUB_ENV.
     
     uat_username = os.environ.get('UAT_IICS_USERNAME')
     uat_password = os.environ.get('UAT_IICS_PASSWORD')
@@ -18,31 +20,45 @@ def main():
     env_file = os.getenv('GITHUB_ENV')
     if not env_file:
         print("GITHUB_ENV not defined, cannot save session IDs.")
-        return
-
+        # We might want to allow running locally without GITHUB_ENV, but for now just print 
+        # return # Don't return, maybe we just want to test login?
+    
     # Login to Primary (DEV)
-    if not (username and password):
-        print("IICS_USERNAME and IICS_PASSWORD environment variables are required.")
-        sys.exit(1)
+    if args.target in ['dev', 'all']:
+        if not (username and password):
+            print("IICS_USERNAME and IICS_PASSWORD environment variables are required for DEV login.")
+            sys.exit(1)
 
-    try:
-        client = IICSClient(login_url=login_url, username=username, password=password)
-        session_id = client.login()
-        with open(env_file, "a") as myfile:
-            myfile.write(f"sessionId={session_id}\n")
-        print("Successfully logged in to Primary/DEV")
-    except Exception as e:
-        print(f"Failed to login to Primary/DEV: {e}")
-        sys.exit(1)
+        try:
+            client = IICSClient(login_url=login_url, username=username, password=password)
+            session_id = client.login()
+            if env_file:
+                with open(env_file, "a") as myfile:
+                    myfile.write(f"sessionId={session_id}\n")
+            print("Successfully logged in to Primary/DEV")
+        except Exception as e:
+            print(f"Failed to login to Primary/DEV: {e}")
+            sys.exit(1)
 
     # Login to UAT
-    if uat_username and uat_password:
+    if args.target in ['uat', 'all']:
+        # If explicitly requested UAT, fail if no creds
+        if not (uat_username and uat_password):
+            if args.target == 'uat':
+                print("UAT_IICS_USERNAME and UAT_IICS_PASSWORD environment variables are required for UAT login.")
+                sys.exit(1)
+            else:
+                # 'all' mode: skip if missing (backward compatibility or optional UAT)
+                print("Skipping UAT login (credentials not provided)")
+                return
+
         try:
             # UAT might use the same login URL or different, assume same for now or env var
             client_uat = IICSClient(login_url=login_url, username=uat_username, password=uat_password)
             uat_session_id = client_uat.login()
-            with open(env_file, "a") as myfile:
-                myfile.write(f"uat_sessionId={uat_session_id}\n")
+            if env_file:
+                with open(env_file, "a") as myfile:
+                    myfile.write(f"uat_sessionId={uat_session_id}\n")
             print("Successfully logged in to UAT")
         except Exception as e:
             print(f"Failed to login to UAT: {e}")

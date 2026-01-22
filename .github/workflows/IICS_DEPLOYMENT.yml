@@ -74,7 +74,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: Login to development
         run: |
-            python ./scripts/iics_auth.py
+            python ./scripts/iics_auth.py --target dev
 
       - name: Test Committed Mapping Tasks
         run: python ./scripts/deploy_dev.py
@@ -122,7 +122,7 @@ jobs:
         run: pwd
           
       - name: Login to UAT
-        run: python ./IICS_CICD_PIPELINE/scripts/iics_auth.py
+        run: python ./IICS_CICD_PIPELINE/scripts/iics_auth.py --target uat
 
       - name: Sync and test UAT deployment
         run: python ./IICS_CICD_PIPELINE/scripts/deploy_uat.py
