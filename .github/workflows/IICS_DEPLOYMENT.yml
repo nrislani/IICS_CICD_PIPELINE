@@ -31,7 +31,7 @@ on:
 
 env:
   IICS_LOGIN_URL: https://dm-em.informaticacloud.com
-  IICS_POD_URL: https://emw1.dm-em.informaticacloud.com/saas
+  # IICS_POD_URL will be set dynamically by iics_auth.py based on login response
  
   IICS_USERNAME: ${{ secrets.IICS_USERNAME }}
   IICS_PASSWORD: ${{ secrets.IICS_PASSWORD }}
