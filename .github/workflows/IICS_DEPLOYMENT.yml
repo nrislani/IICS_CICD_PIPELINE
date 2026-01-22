@@ -86,7 +86,6 @@ jobs:
       UAT_IICS_USERNAME: ${{ secrets.UAT_IICS_USERNAME }}
       UAT_IICS_PASSWORD: ${{ secrets.UAT_IICS_PASSWORD }}
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
-    needs: dev_build
     runs-on: ubuntu-latest
 
     steps:
