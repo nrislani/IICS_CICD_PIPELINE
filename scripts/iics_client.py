@@ -114,6 +114,19 @@ class IICSClient:
         logger.info(f"Syncing commit {commit_hash} to Org")
         
         try:
+            # Debug logging
+            safe_headers = self.headers.copy()
+            if 'INFA-SESSION-ID' in safe_headers:
+                safe_headers['INFA-SESSION-ID'] = '***'
+            if 'icSessionId' in safe_headers:
+                safe_headers['icSessionId'] = '***'
+            
+            logger.info(f"API Request Details:")
+            logger.info(f"URL: {url}")
+            logger.info(f"Method: POST")
+            logger.info(f"Headers: {safe_headers}")
+            logger.info(f"Body: {body}")
+
             response = requests.post(url, headers=self.headers, json=body)
             response.raise_for_status()
             pull_json = response.json()
