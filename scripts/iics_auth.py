@@ -9,6 +9,11 @@ def main():
                         help='Target environment to login to (default: all)')
     args = parser.parse_args()
 
+    # TEST MESSAGE - Version from MAIN branch - Jan 22 15:32
+    print("=" * 80)
+    print("🔧 IICS AUTH SCRIPT - RUNNING FROM MAIN BRANCH - VERSION 2026-01-22 15:32")
+    print("=" * 80)
+
     # Environment variables
     username = os.environ.get('IICS_USERNAME')
     password = os.environ.get('IICS_PASSWORD')

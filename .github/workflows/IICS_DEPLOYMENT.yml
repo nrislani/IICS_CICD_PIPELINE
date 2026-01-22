@@ -51,7 +51,7 @@ jobs:
   dev_build:
     name: Review Development Code
     environment:
-      name: development
+      name: IICS_USERNAME
     if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, 'deploy') }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -60,6 +60,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+        with:
+          ref: main
 
       # Install python and dependent modules
       - uses: actions/setup-python@v3
@@ -73,6 +75,9 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Login to development
+        env:
+          IICS_USERNAME: ${{ secrets.IICS_USERNAME }}
+          IICS_PASSWORD: ${{ secrets.IICS_PASSWORD }}
         run: |
             python ./scripts/iics_auth.py --target dev
 
@@ -82,7 +87,7 @@ jobs:
   uat_commit:
     name: Complete uat promotion
     environment:
-      name: uat
+      name: IICS_USERNAME
     if: ${{ github.event_name == 'workflow_dispatch' }}
     needs: dev_build
     runs-on: ubuntu-latest
@@ -98,6 +103,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           path: IICS_CICD_PIPELINE
+          ref: main
 
       # Install python and dependent modules
       - uses: actions/setup-python@v3
@@ -122,6 +128,9 @@ jobs:
         run: pwd
           
       - name: Login to UAT
+        env:
+          UAT_IICS_USERNAME: ${{ secrets.UAT_IICS_USERNAME }}
+          UAT_IICS_PASSWORD: ${{ secrets.UAT_IICS_PASSWORD }}
         run: python ./IICS_CICD_PIPELINE/scripts/iics_auth.py --target uat
 
       - name: Sync and test UAT deployment
