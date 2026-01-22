@@ -141,9 +141,9 @@ class IICSClient:
         if not self.pod_url or not self.session_id:
             raise IICSConfigError("Pod URL and Session ID are required.")
 
-        body = {"commitHash": commit_hash}
+        body = {"commitHash": commit_hash, "searchCustomRepositories": True}
         
-        logger.info(f"Syncing commit {commit_hash} to Org")
+        logger.info(f"Syncing commit {commit_hash} to Org (searchCustomRepositories=True)")
         
         try:
             response = self._core_v3_request("POST", "/public/core/v3/pullByCommitHash", json=body)
