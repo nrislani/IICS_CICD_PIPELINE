@@ -21,16 +21,19 @@ def main():
         return
 
     # Login to Primary (DEV)
-    if username and password:
-        try:
-            client = IICSClient(login_url=login_url, username=username, password=password)
-            session_id = client.login()
-            with open(env_file, "a") as myfile:
-                myfile.write(f"sessionId={session_id}\n")
-            print("Successfully logged in to Primary/DEV")
-        except Exception as e:
-            print(f"Failed to login to Primary/DEV: {e}")
-            sys.exit(1)
+    if not (username and password):
+        print("IICS_USERNAME and IICS_PASSWORD environment variables are required.")
+        sys.exit(1)
+
+    try:
+        client = IICSClient(login_url=login_url, username=username, password=password)
+        session_id = client.login()
+        with open(env_file, "a") as myfile:
+            myfile.write(f"sessionId={session_id}\n")
+        print("Successfully logged in to Primary/DEV")
+    except Exception as e:
+        print(f"Failed to login to Primary/DEV: {e}")
+        sys.exit(1)
 
     # Login to UAT
     if uat_username and uat_password:
