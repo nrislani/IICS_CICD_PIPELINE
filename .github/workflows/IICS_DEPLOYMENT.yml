@@ -33,7 +33,11 @@ env:
   IICS_LOGIN_URL: https://dm-em.informaticacloud.com
   IICS_POD_URL: https://emw1.dm-em.informaticacloud.com/saas
  
-  # Secrets are now mapped at job level because they are environment-scoped
+  IICS_USERNAME: ${{ secrets.IICS_USERNAME }}
+  IICS_PASSWORD: ${{ secrets.IICS_PASSWORD }}
+
+  UAT_IICS_USERNAME: ${{ secrets.UAT_IICS_USERNAME }}
+  UAT_IICS_PASSWORD: ${{ secrets.UAT_IICS_PASSWORD }}
 
   # This is overriding until we connect the repository with a workflow_dispatch
 
@@ -69,9 +73,6 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Login to development
-        env:
-          IICS_USERNAME: ${{ secrets.IICS_USERNAME }}
-          IICS_PASSWORD: ${{ secrets.IICS_PASSWORD }}
         run: |
             python ./scripts/iics_auth.py --target dev
 
@@ -122,9 +123,6 @@ jobs:
         run: pwd
           
       - name: Login to UAT
-        env:
-          UAT_IICS_USERNAME: ${{ secrets.UAT_IICS_USERNAME }}
-          UAT_IICS_PASSWORD: ${{ secrets.UAT_IICS_PASSWORD }}
         run: python ./IICS_CICD_PIPELINE/scripts/iics_auth.py --target uat
 
       - name: Sync and test UAT deployment
