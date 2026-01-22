@@ -1,0 +1,45 @@
+<aetgt:getResponse xmlns:aetgt="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd"
+                   xmlns:types1="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd">
+   <types1:Item>
+      <types1:EntryId>BJQWSwxF1T4W6jK-gt-4079109-2025-10-24T20:44:42.442Z::po.xml</types1:EntryId>
+      <types1:Name>TaxCategoryCodeType</types1:Name>
+      <types1:MimeType>application/xml+processobject</types1:MimeType>
+      <types1:Description/>
+      <types1:AppliesTo/>
+      <types1:Tags/>
+      <types1:VersionLabel>1.0</types1:VersionLabel>
+      <types1:State>CURRENT</types1:State>
+      <types1:ProcessGroup/>
+      <types1:CreatedBy>mnemri@informatica.com</types1:CreatedBy>
+      <types1:CreationDate>2025-10-24T20:44:42Z</types1:CreationDate>
+      <types1:ModifiedBy/>
+      <types1:PublicationStatus>unpublished</types1:PublicationStatus>
+      <types1:Entry>
+         <processObject xmlns="http://schemas.active-endpoints.com/appmodules/screenflow/2011/06/avosHostEnvironment.xsd"
+                        xmlns:aetgt="http://schemas.informatica.com/socrates/processobject/factory/2019/07/internal/infaProcessObjectFactory.xsd"
+                        xmlns:internal2="http://schemas.informatica.com/socrates/processobject/factory/2019/07/internal/infaProcessObjectFactory.xsd"
+                        xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                        xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                        isByCopy="true"
+                        name="TaxCategoryCodeType">
+            <description>This object was generated from [TaxCategoryCodeType complex type] located in the [CrossIndustryInvoice_100pD22B_urn_un_unece_uncefact_data_standard_QualifiedDataType_100.xsd] source XML schema.</description>
+            <detail>
+               <field label="Value" name="Value" nullable="false" type="string"/>
+               <field label="listID" name="listID" nullable="false" type="string"/>
+               <field label="listAgencyID"
+                      name="listAgencyID"
+                      nullable="false"
+                      type="string"/>
+               <field label="listVersionID"
+                      name="listVersionID"
+                      nullable="false"
+                      type="string"/>
+               <field label="listURI" name="listURI" nullable="false" type="string"/>
+            </detail>
+         </processObject>
+      </types1:Entry>
+      <types1:GUID>7l6hy5vLATxcoapiJPAhUQ</types1:GUID>
+      <types1:DisplayName>TaxCategoryCodeType</types1:DisplayName>
+   </types1:Item>
+   <types1:CurrentServerDateTime>2026-01-22T16:44:29.162Z</types1:CurrentServerDateTime>
+</aetgt:getResponse>

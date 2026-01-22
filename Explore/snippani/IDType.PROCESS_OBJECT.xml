@@ -1,0 +1,60 @@
+<aetgt:getResponse xmlns:aetgt="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd"
+                   xmlns:types1="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd">
+   <types1:Item>
+      <types1:EntryId>ibeKLUaaaaabbgd-gt-4093071-2025-10-24T20:44:41.142Z::po.xml</types1:EntryId>
+      <types1:Name>IDType</types1:Name>
+      <types1:MimeType>application/xml+processobject</types1:MimeType>
+      <types1:Description/>
+      <types1:AppliesTo/>
+      <types1:Tags/>
+      <types1:VersionLabel>1.0</types1:VersionLabel>
+      <types1:State>CURRENT</types1:State>
+      <types1:ProcessGroup/>
+      <types1:CreatedBy>mnemri@informatica.com</types1:CreatedBy>
+      <types1:CreationDate>2025-10-24T20:44:41Z</types1:CreationDate>
+      <types1:ModifiedBy/>
+      <types1:PublicationStatus>unpublished</types1:PublicationStatus>
+      <types1:Entry>
+         <processObject xmlns="http://schemas.active-endpoints.com/appmodules/screenflow/2011/06/avosHostEnvironment.xsd"
+                        xmlns:aetgt="http://schemas.informatica.com/socrates/processobject/factory/2019/07/internal/infaProcessObjectFactory.xsd"
+                        xmlns:internal2="http://schemas.informatica.com/socrates/processobject/factory/2019/07/internal/infaProcessObjectFactory.xsd"
+                        xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                        xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                        isByCopy="true"
+                        name="IDType">
+            <description>This object was generated from [IDType complex type] located in the [CrossIndustryInvoice_100pD22B_urn_un_unece_uncefact_data_standard_UnqualifiedDataType_100.xsd] source XML schema.</description>
+            <detail>
+               <field label="Value" name="Value" nullable="false" type="string"/>
+               <field label="schemeID" name="schemeID" nullable="false" type="string"/>
+               <field label="schemeName"
+                      name="schemeName"
+                      nullable="false"
+                      type="string"/>
+               <field label="schemeAgencyID"
+                      name="schemeAgencyID"
+                      nullable="false"
+                      type="string"/>
+               <field label="schemeAgencyName"
+                      name="schemeAgencyName"
+                      nullable="false"
+                      type="string"/>
+               <field label="schemeVersionID"
+                      name="schemeVersionID"
+                      nullable="false"
+                      type="string"/>
+               <field label="schemeDataURI"
+                      name="schemeDataURI"
+                      nullable="false"
+                      type="string"/>
+               <field label="schemeURI"
+                      name="schemeURI"
+                      nullable="false"
+                      type="string"/>
+            </detail>
+         </processObject>
+      </types1:Entry>
+      <types1:GUID>7jHDkBQ6yYjllCkHMJCnwp</types1:GUID>
+      <types1:DisplayName>IDType</types1:DisplayName>
+   </types1:Item>
+   <types1:CurrentServerDateTime>2026-01-22T16:44:29.144Z</types1:CurrentServerDateTime>
+</aetgt:getResponse>
