@@ -1,0 +1,27 @@
+{
+  "objectInfo" : {
+    "id" : "68bnRY2HmkbdcSIY4cMj4Q",
+    "name" : "TransportMovementStageCodeType",
+    "type" : "PROCESS_OBJECT",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 1,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "H0EKZhHwzZsMBw8-gt-4078786-2025-10-24T20:44:39.538Z::po.xml"
+      },
+      "contextAttributes" : null,
+      "additionalInfo" : {
+        "description" : "This object was generated from [TransportMovementStageCodeType complex type] located in the [CrossIndustryInvoice_100pD22B_urn_un_unece_uncefact_data_standard_QualifiedDataType_100.xsd] source XML schema.",
+        "contentType" : "application/json; charset=utf-8",
+        "documentState" : "VALID"
+      }
+    }
+  },
+  "dataFileExtension" : "xml",
+  "updateTime" : "2026-01-22T16:44:31.125Z",
+  "objectRefs" : [ ],
+  "readableFileExtension" : null,
+  "readableFilePresent" : false
+}

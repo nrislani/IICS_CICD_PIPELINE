@@ -1,0 +1,56 @@
+<aetgt:getResponse xmlns:aetgt="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd"
+                   xmlns:types1="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd">
+   <types1:Item>
+      <types1:EntryId>aa-gt-5961194-2025-10-16T10:56:16.001Z::pd.xml</types1:EntryId>
+      <types1:Name>Process3-2</types1:Name>
+      <types1:MimeType>application/xml+process</types1:MimeType>
+      <types1:Description/>
+      <types1:AppliesTo/>
+      <types1:Tags>.agent:FRWPF3JHX5Z-AAD</types1:Tags>
+      <types1:VersionLabel>1.0</types1:VersionLabel>
+      <types1:State>CURRENT</types1:State>
+      <types1:ProcessGroup/>
+      <types1:CreatedBy>mnemri@informatica.com</types1:CreatedBy>
+      <types1:CreationDate>2025-10-16T10:56:16Z</types1:CreationDate>
+      <types1:ModifiedBy/>
+      <types1:PublicationStatus>unpublished</types1:PublicationStatus>
+      <types1:Entry>
+         <process xmlns="http://schemas.active-endpoints.com/appmodules/screenflow/2010/10/avosScreenflow.xsd"
+                  xmlns:tfm="http://schemas.active-endpoints.com/appmodules/screenflow/2021/04/taskflowModel.xsd"
+                  xmlns:list="urn:activevos:spi:list:functions"
+                  GUID="6uq0vcaDS8KfIkmOVuHYaX"
+                  displayName="Process3"
+                  name="Process3-2"
+                  overrideAPIName="false">
+            <parameterSet xmlns="http://schemas.active-endpoints.com/appmodules/screenflow/2021/04/taskflowModel.xsd"/>
+            <appliesTo/>
+            <description/>
+            <tags>.agent:FRWPF3JHX5Z-AAD</tags>
+            <generator>Informatica Process Designer 11</generator>
+            <notes/>
+            <deployment skipIfRunning="false" suspendOnFault="false" tracingLevel="none">
+               <targetLocation>FRWPF3JHX5Z-AAD</targetLocation>
+               <rest/>
+            </deployment>
+            <extData>
+               <nvpair name="treatEmptyStringAsNotNull">false</nvpair>
+               <nvpair name="treatEmptyStringAsNull">true</nvpair>
+               <nvpair name="treatEmptyObjectListAsArray">true</nvpair>
+               <nvpair name="treatEmptyObjectListAsNotArray">false</nvpair>
+            </extData>
+            <flow id="le49ea323-cad5-4902-a826-de3ce71752c9">
+               <start id="qd8150e52-47ce-407d-91bc-1f0d84cad910">
+                  <link id="b53e9d525-6122-40f8-b00f-c8ca9bdd4eab"
+                        targetId="end-o95892589-6597-4524-b649-8ccffc59dea2"/>
+               </start>
+               <end id="end-o95892589-6597-4524-b649-8ccffc59dea2">
+                  <title>End</title>
+               </end>
+            </flow>
+         </process>
+      </types1:Entry>
+      <types1:GUID>6uq0vcaDS8KfIkmOVuHYaX</types1:GUID>
+      <types1:DisplayName>Process3</types1:DisplayName>
+   </types1:Item>
+   <types1:CurrentServerDateTime>2026-01-22T16:44:29.221Z</types1:CurrentServerDateTime>
+</aetgt:getResponse>

@@ -1,0 +1,259 @@
+<aetgt:getResponse xmlns:aetgt="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd"
+                   xmlns:types1="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd">
+   <types1:Item>
+      <types1:EntryId>vG8H36I1dq2ME9p-gt-4095738-2025-10-24T20:44:42.339Z::po.xml</types1:EntryId>
+      <types1:Name>BasicWorkItemType</types1:Name>
+      <types1:MimeType>application/xml+processobject</types1:MimeType>
+      <types1:Description/>
+      <types1:AppliesTo/>
+      <types1:Tags/>
+      <types1:VersionLabel>1.0</types1:VersionLabel>
+      <types1:State>CURRENT</types1:State>
+      <types1:ProcessGroup/>
+      <types1:CreatedBy>mnemri@informatica.com</types1:CreatedBy>
+      <types1:CreationDate>2025-10-24T20:44:42Z</types1:CreationDate>
+      <types1:ModifiedBy/>
+      <types1:PublicationStatus>unpublished</types1:PublicationStatus>
+      <types1:Entry>
+         <processObject xmlns="http://schemas.active-endpoints.com/appmodules/screenflow/2011/06/avosHostEnvironment.xsd"
+                        xmlns:aetgt="http://schemas.informatica.com/socrates/processobject/factory/2019/07/internal/infaProcessObjectFactory.xsd"
+                        xmlns:internal2="http://schemas.informatica.com/socrates/processobject/factory/2019/07/internal/infaProcessObjectFactory.xsd"
+                        isByCopy="true"
+                        name="BasicWorkItemType">
+            <description xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                         xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd">This object was generated from [BasicWorkItemType complex type] located in the [CrossIndustryInvoice_100pD22B_urn_un_unece_uncefact_data_standard_ReusableAggregateBusinessInformationEntity_100.xsd] source XML schema.</description>
+            <detail>
+               <field label="ID"
+                      name="ID"
+                      nullable="false"
+                      required="true"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:IDType</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="ReferenceID"
+                      name="ReferenceID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:IDType</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="PrimaryClassificationCode"
+                      name="PrimaryClassificationCode"
+                      nullable="false"
+                      type="objectlist">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:CodeType</option>
+                     <option name="guid">j4JXutX6A8Hk7y6cFIFHAO</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="AlternativeClassificationCode"
+                      name="AlternativeClassificationCode"
+                      nullable="false"
+                      type="objectlist">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:CodeType</option>
+                     <option name="guid">j4JXutX6A8Hk7y6cFIFHAO</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="TypeCode"
+                      name="TypeCode"
+                      nullable="false"
+                      type="objectlist">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:CodeType</option>
+                     <option name="guid">j4JXutX6A8Hk7y6cFIFHAO</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="Comment"
+                      name="Comment"
+                      nullable="false"
+                      type="objectlist">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:TextType</option>
+                     <option name="guid">0xig7x6MtYJfU1BKyAZZ2e</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="TotalQuantity"
+                      name="TotalQuantity"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:QuantityType</option>
+                     <option name="guid">bV4BeqrbT2WgSVJ0wBcciF</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="TotalQuantityClassificationCode"
+                      name="TotalQuantityClassificationCode"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:CodeType</option>
+                     <option name="guid">j4JXutX6A8Hk7y6cFIFHAO</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="Index" name="Index" nullable="false" type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:TextType</option>
+                     <option name="guid">0xig7x6MtYJfU1BKyAZZ2e</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="RequestedActionCode"
+                      name="RequestedActionCode"
+                      nullable="false"
+                      type="objectlist">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:CodeType</option>
+                     <option name="guid">j4JXutX6A8Hk7y6cFIFHAO</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="PriceListItemID"
+                      name="PriceListItemID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:IDType</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="ContractualLanguageCode"
+                      name="ContractualLanguageCode"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:CodeType</option>
+                     <option name="guid">j4JXutX6A8Hk7y6cFIFHAO</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="ActualWorkItemComplexDescription"
+                      name="ActualWorkItemComplexDescription"
+                      nullable="false"
+                      type="objectlist">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:WorkItemComplexDescriptionType</option>
+                     <option name="guid">7FzKIBswwJkhyU8uKFvSGC</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="TotalQuantityWorkItemQuantityAnalysis"
+                      name="TotalQuantityWorkItemQuantityAnalysis"
+                      nullable="false"
+                      type="objectlist">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:WorkItemQuantityAnalysisType</option>
+                     <option name="guid">8AeZ8DTu6cSiAvXU81gcad</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="UnitCalculatedPrice"
+                      name="UnitCalculatedPrice"
+                      nullable="false"
+                      type="objectlist">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">4D3OxjVKaPBkqrDdkWrzuP</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="TotalCalculatedPrice"
+                      name="TotalCalculatedPrice"
+                      nullable="false"
+                      type="objectlist">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">4D3OxjVKaPBkqrDdkWrzuP</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="ChangedRecordedStatus"
+                      name="ChangedRecordedStatus"
+                      nullable="false"
+                      type="objectlist">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:RecordedStatusType</option>
+                     <option name="guid">dZbgumRXgqmcScNWGHFIG2</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="ItemBasicWorkItem"
+                      name="ItemBasicWorkItem"
+                      nullable="false"
+                      type="objectlist">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">6VfgdGkFypdgxWea4ukpQ0</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="ReferencedSpecifiedBinaryFile"
+                      name="ReferencedSpecifiedBinaryFile"
+                      nullable="false"
+                      type="objectlist">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:SpecifiedBinaryFileType</option>
+                     <option name="guid">fYTrJDYUBY9f27kDCTMwq1</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+            </detail>
+         </processObject>
+      </types1:Entry>
+      <types1:GUID>6VfgdGkFypdgxWea4ukpQ0</types1:GUID>
+      <types1:DisplayName>BasicWorkItemType</types1:DisplayName>
+   </types1:Item>
+   <types1:CurrentServerDateTime>2026-01-22T16:44:30.082Z</types1:CurrentServerDateTime>
+</aetgt:getResponse>

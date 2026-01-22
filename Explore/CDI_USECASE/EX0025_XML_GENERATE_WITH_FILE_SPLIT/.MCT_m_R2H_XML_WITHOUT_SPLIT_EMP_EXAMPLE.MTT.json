@@ -1,0 +1,130 @@
+{
+  "objectInfo" : {
+    "id" : "9wkg5P7Y0eehlaqoNxwgow",
+    "name" : "MCT_m_R2H_XML_WITHOUT_SPLIT_EMP_EXAMPLE",
+    "type" : "MTT",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 0,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "0118KW0Z00000000001Z"
+      },
+      "contextAttributes" : [ {
+        "name" : "id",
+        "value" : "@1"
+      } ],
+      "additionalInfo" : {
+        "description" : "MCT_m_R2H_XML_WITHOUT_SPLIT_EMP_EXAMPLE",
+        "contentType" : "JSON",
+        "documentState" : "VALID"
+      }
+    }
+  },
+  "dataFileExtension" : "zip",
+  "updateTime" : "2026-01-22T10:25:46.703Z",
+  "objectRefs" : [ {
+    "id" : "7YI3tWLOBGphpkT3cBmIyt",
+    "name" : "EDX3_ORA_INFADEMO_DATA",
+    "type" : "Connection",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 0,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "0118KW0B00000000002C"
+      },
+      "contextAttributes" : null,
+      "additionalInfo" : {
+        "description" : "EDX3_ORA_INFADEMO_DATA",
+        "contentType" : "JSON",
+        "documentState" : "COMPLETE"
+      }
+    },
+    "path" : "/SYS"
+  }, {
+    "id" : "cGoUvKHESUMi359dsVf3Op",
+    "name" : "EDX_FLATFILE_TGT",
+    "type" : "Connection",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 0,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "0118KW0B00000000002B"
+      },
+      "contextAttributes" : null,
+      "additionalInfo" : {
+        "description" : "EDX_FLATFILE_TGT",
+        "contentType" : "JSON",
+        "documentState" : "COMPLETE"
+      }
+    },
+    "path" : "/SYS"
+  }, {
+    "id" : "6yVzlGdyrwVebwR8BbalMj",
+    "name" : "edx",
+    "type" : "AgentGroup",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 0,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "0118KW250000000000AA"
+      },
+      "contextAttributes" : null,
+      "additionalInfo" : {
+        "description" : null,
+        "contentType" : "JSON",
+        "documentState" : "VALID"
+      }
+    },
+    "path" : "/SYS"
+  }, {
+    "id" : "3sPtzPinQHUlBGoQNRIwCw",
+    "name" : "HS_XML_SCHEMA_EMPLOYEE_WITHOUT_DUMMYCOL",
+    "type" : "HSCHEMA",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 0,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "0118KW36000000000013"
+      },
+      "contextAttributes" : null,
+      "additionalInfo" : {
+        "description" : "HS_XML_SCHEMA_EMPLOYEE_WITHOUT_DUMMYCOLdddd",
+        "contentType" : "JSON",
+        "documentState" : "VALID"
+      }
+    },
+    "path" : "/Explore/CDI_USECASE/EX0025_XML_GENERATE_WITH_FILE_SPLIT"
+  }, {
+    "id" : "gk9qSX7O6sDevyUfkKoO6i",
+    "name" : "m_R2H_XML_WITHOUT_SPLIT_EMP_EXAMPLE",
+    "type" : "DTEMPLATE",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 0,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "0118KW1700000000003H"
+      },
+      "contextAttributes" : null,
+      "additionalInfo" : {
+        "description" : "This code will not split the xml and generate a single file with multiple XMLs in it.",
+        "contentType" : "JSON",
+        "documentState" : "VALID"
+      }
+    },
+    "path" : "/Explore/CDI_USECASE/EX0025_XML_GENERATE_WITH_FILE_SPLIT"
+  } ],
+  "readableFileExtension" : "json",
+  "readableFilePresent" : true
+}

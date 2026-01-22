@@ -6,9 +6,12 @@
 # arising from any such use to the fullest extent permitted by law.
 
 name: DEPLOY_MAPPING_TASK
-
+ 
 # Controls when the workflow will run
 on:
+  push:
+    branches:
+      - dev
   workflow_dispatch:
     inputs:
       committed_sha:
@@ -19,7 +22,7 @@ on:
         description: "Repository Name (owner/repo)"
         type: string
         required: true
-        default: "nrislani/iics"
+        default: "owner/repo"
       resource_type:
         description: "IICS Resource Type (MTT=Mapping Task, DSS=Sync Task)"
         type: string
@@ -28,7 +31,7 @@ on:
 
 env:
   IICS_LOGIN_URL: https://dm-em.informaticacloud.com
-  IICS_POD_URL: https://emw1.dm-em.informaticacloud.com/saas
+  # IICS_POD_URL will be set dynamically by iics_auth.py based on login response
  
   IICS_USERNAME: ${{ secrets.IICS_USERNAME }}
   IICS_PASSWORD: ${{ secrets.IICS_PASSWORD }}
@@ -38,9 +41,9 @@ env:
 
   # This is overriding until we connect the repository with a workflow_dispatch
 
-  COMMIT_HASH: ${{ github.event.inputs.committed_sha }}
-  REPO_NAME: ${{ github.event.inputs.repo_name }}
-  RESOURCE_TYPE: ${{ github.event.inputs.resource_type }}
+  COMMIT_HASH: ${{ github.event.inputs.committed_sha || github.sha }}
+  REPO_NAME: ${{ github.event.inputs.repo_name || github.repository }}
+  RESOURCE_TYPE: ${{ github.event.inputs.resource_type || 'MTT' }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -48,7 +51,8 @@ jobs:
   dev_build:
     name: Review Development Code
     environment:
-      name: development
+      name: IICS_USERNAME
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, 'deploy') }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -56,6 +60,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+        with:
+          ref: main
 
       # Install python and dependent modules
       - uses: actions/setup-python@v3
@@ -69,16 +75,21 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Login to development
+        env:
+          IICS_USERNAME: ${{ secrets.IICS_USERNAME }}
+          IICS_PASSWORD: ${{ secrets.IICS_PASSWORD }}
         run: |
-            python ./scripts/iics_auth.py
+            python ./scripts/iics_auth.py --target dev
 
-      - name: Test Committed Mapping Tasks
-        run: python ./scripts/deploy_dev.py
+      # TEMPORARILY DISABLED - 403 error on activityLog
+      # - name: Test Committed Mapping Tasks
+      #   run: python ./scripts/deploy_dev.py
 
   uat_commit:
     name: Complete uat promotion
     environment:
-      name: uat
+      name: IICS_USERNAME
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     needs: dev_build
     runs-on: ubuntu-latest
 
@@ -93,6 +104,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           path: IICS_CICD_PIPELINE
+          ref: main
 
       # Install python and dependent modules
       - uses: actions/setup-python@v3
@@ -105,7 +117,7 @@ jobs:
             pip install -r IICS_CICD_PIPELINE/requirements.txt
 
       - name: Set default username
-        run: git config --global user.email "nrislani@informatica.com"; git config --global user.name "nrislani"
+        run: git config --global user.email "github-actions[bot]@users.noreply.github.com"; git config --global user.name "github-actions[bot]"
 
       - name: Commit changes to UAT
         run: cd ./iics && git fetch --all && (git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH} || { git checkout --theirs . && git add . && git cherry-pick --continue; }) && git pull && git push
@@ -117,7 +129,10 @@ jobs:
         run: pwd
           
       - name: Login to UAT
-        run: python ./IICS_CICD_PIPELINE/scripts/iics_auth.py
+        env:
+          UAT_IICS_USERNAME: ${{ secrets.UAT_IICS_USERNAME }}
+          UAT_IICS_PASSWORD: ${{ secrets.UAT_IICS_PASSWORD }}
+        run: python ./IICS_CICD_PIPELINE/scripts/iics_auth.py --target uat
 
       - name: Sync and test UAT deployment
         run: python ./IICS_CICD_PIPELINE/scripts/deploy_uat.py

@@ -1,0 +1,96 @@
+<aetgt:getResponse xmlns:aetgt="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd"
+                   xmlns:types1="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd">
+   <types1:Item>
+      <types1:EntryId>i028jIw8jIw8jIw-gt-4095404-2025-10-24T20:44:38.141Z::po.xml</types1:EntryId>
+      <types1:Name>ReferencedStandardType</types1:Name>
+      <types1:MimeType>application/xml+processobject</types1:MimeType>
+      <types1:Description/>
+      <types1:AppliesTo/>
+      <types1:Tags/>
+      <types1:VersionLabel>1.0</types1:VersionLabel>
+      <types1:State>CURRENT</types1:State>
+      <types1:ProcessGroup/>
+      <types1:CreatedBy>mnemri@informatica.com</types1:CreatedBy>
+      <types1:CreationDate>2025-10-24T20:44:38Z</types1:CreationDate>
+      <types1:ModifiedBy/>
+      <types1:PublicationStatus>unpublished</types1:PublicationStatus>
+      <types1:Entry>
+         <processObject xmlns="http://schemas.active-endpoints.com/appmodules/screenflow/2011/06/avosHostEnvironment.xsd"
+                        xmlns:aetgt="http://schemas.informatica.com/socrates/processobject/factory/2019/07/internal/infaProcessObjectFactory.xsd"
+                        xmlns:internal2="http://schemas.informatica.com/socrates/processobject/factory/2019/07/internal/infaProcessObjectFactory.xsd"
+                        isByCopy="true"
+                        name="ReferencedStandardType">
+            <description xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                         xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd">This object was generated from [ReferencedStandardType complex type] located in the [CrossIndustryInvoice_100pD22B_urn_un_unece_uncefact_data_standard_ReusableAggregateBusinessInformationEntity_100.xsd] source XML schema.</description>
+            <detail>
+               <field label="ID" name="ID" nullable="false" type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="VersionID"
+                      name="VersionID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="ElementVersionID"
+                      name="ElementVersionID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="URIID" name="URIID" nullable="false" type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="PartID" name="PartID" nullable="false" type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="AgencyID"
+                      name="AgencyID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+            </detail>
+         </processObject>
+      </types1:Entry>
+      <types1:GUID>70Zqa4aCFSSjQkFtkmIjqV</types1:GUID>
+      <types1:DisplayName>ReferencedStandardType</types1:DisplayName>
+   </types1:Item>
+   <types1:CurrentServerDateTime>2026-01-22T16:44:30.067Z</types1:CurrentServerDateTime>
+</aetgt:getResponse>

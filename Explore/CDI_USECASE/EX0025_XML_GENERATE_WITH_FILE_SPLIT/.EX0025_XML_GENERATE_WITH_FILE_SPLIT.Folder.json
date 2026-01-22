@@ -1,0 +1,25 @@
+{
+  "objectInfo" : {
+    "id" : "4komx9LO4mddhOFkekSn20",
+    "name" : "EX0025_XML_GENERATE_WITH_FILE_SPLIT",
+    "type" : "Folder",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 0,
+        "minor" : 0
+      },
+      "repoInfo" : null,
+      "contextAttributes" : [ ],
+      "additionalInfo" : {
+        "description" : "EX0025_XML_GENERATE_WITH_FILE_SPLIT",
+        "contentType" : "Binary",
+        "documentState" : "COMPLETE"
+      }
+    }
+  },
+  "dataFileExtension" : "json",
+  "updateTime" : "2026-01-22T10:05:08.957Z",
+  "objectRefs" : [ ],
+  "readableFileExtension" : null,
+  "readableFilePresent" : false
+}

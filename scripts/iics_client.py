@@ -74,8 +74,14 @@ class IICSClient:
             self.headers["INFA-SESSION-ID"] = self.session_id
             self.headers["icSessionId"] = self.session_id
             
+            # Extract baseApiUrl
+            base_api_url = data.get('products', [{}])[0].get('baseApiUrl')
+            if base_api_url:
+                self.pod_url = base_api_url
+                logger.info(f"Updated POD URL to: {self.pod_url}")
+            
             logger.info("Login successful")
-            return self.session_id
+            return self.session_id, self.pod_url
         except requests.RequestException as e:
             logger.error(f"Login failed: {e}")
             if hasattr(e, 'response') and e.response is not None:
@@ -108,6 +114,19 @@ class IICSClient:
         logger.info(f"Syncing commit {commit_hash} to Org")
         
         try:
+            # Debug logging
+            safe_headers = self.headers.copy()
+            if 'INFA-SESSION-ID' in safe_headers:
+                safe_headers['INFA-SESSION-ID'] = '***'
+            if 'icSessionId' in safe_headers:
+                safe_headers['icSessionId'] = '***'
+            
+            logger.info(f"API Request Details:")
+            logger.info(f"URL: {url}")
+            logger.info(f"Method: POST")
+            logger.info(f"Headers: {safe_headers}")
+            logger.info(f"Body: {body}")
+
             response = requests.post(url, headers=self.headers, json=body)
             response.raise_for_status()
             pull_json = response.json()

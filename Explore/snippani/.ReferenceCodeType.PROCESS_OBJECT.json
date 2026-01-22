@@ -1,0 +1,27 @@
+{
+  "objectInfo" : {
+    "id" : "5vy9NVdD7S4kqMIQZaI4AJ",
+    "name" : "ReferenceCodeType",
+    "type" : "PROCESS_OBJECT",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 1,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "oTCOshBnJKoJBUh-gt-4078951-2025-10-24T20:44:41.239Z::po.xml"
+      },
+      "contextAttributes" : null,
+      "additionalInfo" : {
+        "description" : "This object was generated from [ReferenceCodeType complex type] located in the [CrossIndustryInvoice_100pD22B_urn_un_unece_uncefact_data_standard_QualifiedDataType_100.xsd] source XML schema.",
+        "contentType" : "application/json; charset=utf-8",
+        "documentState" : "VALID"
+      }
+    }
+  },
+  "dataFileExtension" : "xml",
+  "updateTime" : "2026-01-22T16:44:31.131Z",
+  "objectRefs" : [ ],
+  "readableFileExtension" : null,
+  "readableFilePresent" : false
+}

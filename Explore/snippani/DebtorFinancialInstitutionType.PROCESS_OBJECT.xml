@@ -1,0 +1,348 @@
+<aetgt:getResponse xmlns:aetgt="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd"
+                   xmlns:types1="http://schemas.active-endpoints.com/appmodules/repository/2010/10/avrepository.xsd">
+   <types1:Item>
+      <types1:EntryId>DFIKUzeA8rJ4pbg-gt-4078830-2025-10-24T20:44:40.47Z::po.xml</types1:EntryId>
+      <types1:Name>DebtorFinancialInstitutionType</types1:Name>
+      <types1:MimeType>application/xml+processobject</types1:MimeType>
+      <types1:Description/>
+      <types1:AppliesTo/>
+      <types1:Tags/>
+      <types1:VersionLabel>1.0</types1:VersionLabel>
+      <types1:State>CURRENT</types1:State>
+      <types1:ProcessGroup/>
+      <types1:CreatedBy>mnemri@informatica.com</types1:CreatedBy>
+      <types1:CreationDate>2025-10-24T20:44:40Z</types1:CreationDate>
+      <types1:ModifiedBy/>
+      <types1:PublicationStatus>unpublished</types1:PublicationStatus>
+      <types1:Entry>
+         <processObject xmlns="http://schemas.active-endpoints.com/appmodules/screenflow/2011/06/avosHostEnvironment.xsd"
+                        xmlns:aetgt="http://schemas.informatica.com/socrates/processobject/factory/2019/07/internal/infaProcessObjectFactory.xsd"
+                        xmlns:internal2="http://schemas.informatica.com/socrates/processobject/factory/2019/07/internal/infaProcessObjectFactory.xsd"
+                        isByCopy="true"
+                        name="DebtorFinancialInstitutionType">
+            <description xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                         xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd">This object was generated from [DebtorFinancialInstitutionType complex type] located in the [CrossIndustryInvoice_100pD22B_urn_un_unece_uncefact_data_standard_ReusableAggregateBusinessInformationEntity_100.xsd] source XML schema.</description>
+            <detail>
+               <field label="BICID" name="BICID" nullable="false" type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="ClearingSystemName"
+                      name="ClearingSystemName"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">0xig7x6MtYJfU1BKyAZZ2e</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="CHIPSUniversalID"
+                      name="CHIPSUniversalID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="NewZealandNCCID"
+                      name="NewZealandNCCID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="IrishNSCID"
+                      name="IrishNSCID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="UKSortCodeID"
+                      name="UKSortCodeID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="CHIPSParticipantID"
+                      name="CHIPSParticipantID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="SwissBCID"
+                      name="SwissBCID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="FedwireRoutingNumberID"
+                      name="FedwireRoutingNumberID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="PortugueseNCCID"
+                      name="PortugueseNCCID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="RussianCentralBankID"
+                      name="RussianCentralBankID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="ItalianDomesticID"
+                      name="ItalianDomesticID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="AustrianBankleitzahlID"
+                      name="AustrianBankleitzahlID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="CanadianPaymentsAssociationID"
+                      name="CanadianPaymentsAssociationID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="SICID" name="SICID" nullable="false" type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="GermanBankleitzahlID"
+                      name="GermanBankleitzahlID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="SpanishDomesticInterbankingID"
+                      name="SpanishDomesticInterbankingID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="SouthAfricanNCCID"
+                      name="SouthAfricanNCCID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="HongKongBankID"
+                      name="HongKongBankID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="AustralianBSBID"
+                      name="AustralianBSBID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="IndianFinancialSystemID"
+                      name="IndianFinancialSystemID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="HellenicBankID"
+                      name="HellenicBankID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="PolishNationalClearingID"
+                      name="PolishNationalClearingID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="Name" name="Name" nullable="false" type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">0xig7x6MtYJfU1BKyAZZ2e</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="JapanFinancialInstitutionCommonID"
+                      name="JapanFinancialInstitutionCommonID"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7jHDkBQ6yYjllCkHMJCnwp</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="LocationFinancialInstitutionAddress"
+                      name="LocationFinancialInstitutionAddress"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:null</option>
+                     <option name="guid">7KeU6muRjLvcsuq2u0SC0G</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+               <field label="SubDivisionBranchFinancialInstitution"
+                      name="SubDivisionBranchFinancialInstitution"
+                      nullable="false"
+                      type="reference">
+                  <options>
+                     <option xmlns:ns2="http://schemas.active-endpoints.com/appmodules/screenflow/2011/07/avosCommon.xsd"
+                             xmlns:ns3="http://schemas.active-endpoints.com/appmodules/screenflow/2012/09/avosObjectDiscovery.xsd"
+                             name="referenceTo">$po:BranchFinancialInstitutionType</option>
+                     <option name="guid">ddD7VYZAnctlucfRagDGGL</option>
+                     <option name="relationshipName">Child</option>
+                  </options>
+               </field>
+            </detail>
+         </processObject>
+      </types1:Entry>
+      <types1:GUID>7EeFtohNfN6dXRYpPRtuM3</types1:GUID>
+      <types1:DisplayName>DebtorFinancialInstitutionType</types1:DisplayName>
+   </types1:Item>
+   <types1:CurrentServerDateTime>2026-01-22T16:44:30.426Z</types1:CurrentServerDateTime>
+</aetgt:getResponse>
