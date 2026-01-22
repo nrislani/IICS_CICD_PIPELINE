@@ -23,11 +23,6 @@ on:
         type: string
         required: true
         default: "owner/repo"
-      uat_branch:
-        description: "Target branch for UAT promotion"
-        type: string
-        required: true
-        default: "uat"
       resource_type:
         description: "IICS Resource Type (MTT=Mapping Task, DSS=Sync Task)"
         type: string
@@ -37,16 +32,18 @@ on:
 env:
   IICS_LOGIN_URL: https://dm-em.informaticacloud.com
   IICS_POD_URL: https://emw1.dm-em.informaticacloud.com/saas
-  
+ 
+  IICS_USERNAME: ${{ secrets.IICS_USERNAME }}
+  IICS_PASSWORD: ${{ secrets.IICS_PASSWORD }}
+
+  UAT_IICS_USERNAME: ${{ secrets.UAT_IICS_USERNAME }}
+  UAT_IICS_PASSWORD: ${{ secrets.UAT_IICS_PASSWORD }}
+
   # This is overriding until we connect the repository with a workflow_dispatch
 
   COMMIT_HASH: ${{ github.event.inputs.committed_sha || github.sha }}
   REPO_NAME: ${{ github.event.inputs.repo_name || github.repository }}
-  UAT_BRANCH: ${{ github.event.inputs.uat_branch || 'uat' }}
   RESOURCE_TYPE: ${{ github.event.inputs.resource_type || 'MTT' }}
-
-permissions:
-  contents: write
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -54,10 +51,7 @@ jobs:
   dev_build:
     name: Review Development Code
     environment:
-      name: IICS_USERNAME
-    env:
-      IICS_USERNAME: ${{ secrets.IICS_USERNAME }}
-      IICS_PASSWORD: ${{ secrets.IICS_PASSWORD }}
+      name: development
     if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, 'deploy') }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -80,30 +74,25 @@ jobs:
       # Runs a single command using the runners shell
       - name: Login to development
         run: |
-            python ./scripts/iics_auth.py
+            python ./scripts/iics_auth.py --target dev
 
       - name: Test Committed Mapping Tasks
-        if: ${{ false }}
         run: python ./scripts/deploy_dev.py
 
   uat_commit:
     name: Complete uat promotion
-    needs: dev_build
     environment:
-      name: IICS_USERNAME
-    if: ${{ always() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && contains(github.event.head_commit.message, 'deploy'))) }}
-    env:
-      UAT_IICS_USERNAME: ${{ secrets.UAT_IICS_USERNAME }}
-      UAT_IICS_PASSWORD: ${{ secrets.UAT_IICS_PASSWORD }}
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      name: uat
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    needs: dev_build
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
         with:
           repository: ${{ env.REPO_NAME }}
-          ref: ${{ env.UAT_BRANCH }}
-          token: ${{ secrets.GH_TOKEN || github.token }}
+          ref: dev2
+          token: ${{ secrets.GH_TOKEN }}
           path: iics # Clones the iicsrepo repository into the iicsrepo directory
 
       - uses: actions/checkout@v3
@@ -133,7 +122,7 @@ jobs:
         run: pwd
           
       - name: Login to UAT
-        run: python ./IICS_CICD_PIPELINE/scripts/iics_auth.py
+        run: python ./IICS_CICD_PIPELINE/scripts/iics_auth.py --target uat
 
       - name: Sync and test UAT deployment
         run: python ./IICS_CICD_PIPELINE/scripts/deploy_uat.py

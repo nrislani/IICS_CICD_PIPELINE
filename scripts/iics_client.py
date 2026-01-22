@@ -36,34 +36,10 @@ class IICSClient:
         self.username = username
         self.password = password
         self.session_id = session_id
-        self.headers = {
-            "Content-Type": "application/json; charset=utf-8",
-            "Accept": "application/json"
-        }
+        self.headers = {"Content-Type": "application/json; charset=utf-8"}
         if self.session_id:
             self.headers["INFA-SESSION-ID"] = self.session_id
             self.headers["icSessionId"] = self.session_id
-
-    def _api_v2_base_url(self) -> str:
-        if not self.pod_url:
-            raise IICSConfigError("Pod URL is required.")
-        base = self.pod_url.rstrip("/")
-        if base.endswith("/saas"):
-            base = base[: -len("/saas")]
-        return base
-
-    def _core_v3_base_url(self) -> str:
-        """Returns the base URL for core v3 endpoints. Uses pod_url directly (with /saas if present)."""
-        if not self.pod_url:
-            raise IICSConfigError("Pod URL is required.")
-        return self.pod_url.rstrip("/")
-
-    def _core_v3_request(self, method: str, path: str, **kwargs) -> requests.Response:
-        url = f"{self._core_v3_base_url()}{path}"
-        logger.info(f"Core v3 request: {method} {url}")
-        response = requests.request(method, url, headers=self.headers, **kwargs)
-        response.raise_for_status()
-        return response
 
     @retry(
         stop=stop_after_attempt(3),
@@ -98,8 +74,14 @@ class IICSClient:
             self.headers["INFA-SESSION-ID"] = self.session_id
             self.headers["icSessionId"] = self.session_id
             
+            # Extract baseApiUrl
+            base_api_url = data.get('products', [{}])[0].get('baseApiUrl')
+            if base_api_url:
+                self.pod_url = base_api_url
+                logger.info(f"Updated POD URL to: {self.pod_url}")
+            
             logger.info("Login successful")
-            return self.session_id
+            return self.session_id, self.pod_url
         except requests.RequestException as e:
             logger.error(f"Login failed: {e}")
             if hasattr(e, 'response') and e.response is not None:
@@ -126,12 +108,27 @@ class IICSClient:
         if not self.pod_url or not self.session_id:
             raise IICSConfigError("Pod URL and Session ID are required.")
 
+        url = f"{self.pod_url}/public/core/v3/pullByCommitHash"
         body = {"commitHash": commit_hash}
         
         logger.info(f"Syncing commit {commit_hash} to Org")
         
         try:
-            response = self._core_v3_request("POST", "/public/core/v3/pullByCommitHash", json=body)
+            # Debug logging
+            safe_headers = self.headers.copy()
+            if 'INFA-SESSION-ID' in safe_headers:
+                safe_headers['INFA-SESSION-ID'] = '***'
+            if 'icSessionId' in safe_headers:
+                safe_headers['icSessionId'] = '***'
+            
+            logger.info(f"API Request Details:")
+            logger.info(f"URL: {url}")
+            logger.info(f"Method: POST")
+            logger.info(f"Headers: {safe_headers}")
+            logger.info(f"Body: {body}")
+
+            response = requests.post(url, headers=self.headers, json=body)
+            response.raise_for_status()
             pull_json = response.json()
             pull_action_id = pull_json['pullActionId']
             
@@ -152,12 +149,14 @@ class IICSClient:
         if not self.pod_url or not self.session_id:
             raise IICSConfigError("Pod URL and Session ID are required.")
 
+        url = f"{self.pod_url}/public/core/v3/pull"
         body = {"commitHash": commit_hash, "objects": [{"id": object_id}]}
         
         logger.info(f"Syncing object {object_id} from commit {commit_hash}")
         
         try:
-            response = self._core_v3_request("POST", "/public/core/v3/pull", json=body)
+            response = requests.post(url, headers=self.headers, json=body)
+            response.raise_for_status()
             pull_json = response.json()
             pull_action_id = pull_json['pullActionId']
             
@@ -174,12 +173,13 @@ class IICSClient:
             pull_action_id: The ID of the pull action to monitor
         """
         status = 'IN_PROGRESS'
-        path = f"/public/core/v3/sourceControlAction/{pull_action_id}"
+        url = f"{self.pod_url}/public/core/v3/sourceControlAction/{pull_action_id}"
         
         while status == 'IN_PROGRESS':
             logger.info("Checking pull status...")
             time.sleep(10)
-            response = self._core_v3_request("GET", path)
+            response = requests.get(url, headers=self.headers)
+            response.raise_for_status()
             data = response.json()
             status = data['status']['state']
             
@@ -212,9 +212,11 @@ class IICSClient:
         if not self.pod_url or not self.session_id:
             raise IICSConfigError("Pod URL and Session ID are required.")
 
+        url = f"{self.pod_url}/public/core/v3/commit/{commit_hash}"
         logger.info(f"Getting objects for commit {commit_hash}")
-
-        response = self._core_v3_request("GET", f"/public/core/v3/commit/{commit_hash}")
+        
+        response = requests.get(url, headers=self.headers)
+        response.raise_for_status()
         data = response.json()
         
         changes = data.get('changes', [])
@@ -240,18 +242,13 @@ class IICSClient:
         if not self.pod_url or not self.session_id:
             raise IICSConfigError("Pod URL and Session ID are required.")
 
-        url = f"{self._api_v2_base_url()}/api/v2/job/"
+        url = f"{self.pod_url}/api/v2/job/"
         body = {"@type": "job", "taskId": task_id, "taskType": task_type}
         
         logger.info(f"Starting job for task {task_id} of type {task_type}")
         
         response = requests.post(url, headers=self.headers, json=body)
-        try:
-            response.raise_for_status()
-        except requests.RequestException as e:
-            logger.error(f"Job start failed: {e}")
-            logger.error(f"Response: {response.text}")
-            raise
+        response.raise_for_status()
         job_data = response.json()
         
         run_id = job_data.get('runId')
@@ -271,20 +268,13 @@ class IICSClient:
             0 on success
         """
         state = 0
-        url = f"{self._api_v2_base_url()}/api/v2/activity/activityLog?runId={run_id}"
+        url = f"{self.pod_url}/api/v2/activity/activityLog?runId={run_id}"
         
         while state == 0:
             time.sleep(20)
             logger.info(f"Checking job status for runId {run_id}...")
             response = requests.get(url, headers=self.headers)
-            try:
-                response.raise_for_status()
-            except requests.RequestException as e:
-                logger.error(f"Activity log request failed: {e}")
-                logger.error(f"Response: {response.text}")
-                if response.status_code == 403:
-                    logger.error("Forbidden: Check your credentials and permissions")
-                raise
+            response.raise_for_status()
             activity_log = response.json()
             
             if activity_log:
@@ -309,7 +299,8 @@ class IICSClient:
         """Logs out from IICS."""
         if self.pod_url and self.session_id:
             try:
-                self._core_v3_request("POST", "/public/core/v3/logout")
+                url = f"{self.pod_url}/public/core/v3/logout"
+                requests.post(url, headers=self.headers)
                 logger.info("Logged out successfully")
             except Exception as e:
                 logger.warning(f"Logout failed (might already be expired): {e}")
@@ -334,23 +325,34 @@ class IICSClient:
         logger.info(f"Rolling back mapping {mapping_name} in path {path_name}")
 
         query = f"path=='{path_name}/{mapping_name}' and type=='{object_type}'"
-        response = self._core_v3_request("GET", f"/public/core/v3/commitHistory?q={query}")
-        commit_json = response.json()
+        history_url = f"{self.pod_url}/public/core/v3/commitHistory?q={query}"
         
-        if len(commit_json.get('commits', [])) < 2:
-            raise IICSPullError("No previous commit found to rollback to.")
+        try:
+            r = requests.get(history_url, headers=self.headers)
+            r.raise_for_status()
+            commit_json = r.json()
+            
+            if len(commit_json.get('commits', [])) < 2:
+                raise IICSPullError("No previous commit found to rollback to.")
                 
-        previous_hash = commit_json['commits'][1]['hash']
-        
-        body = {"objects": [{"path": f"{path_name}/{mapping_name}", "type": object_type.upper()}]}
-        response = self._core_v3_request("POST", "/public/core/v3/lookup", json=body)
-        object_json = response.json()
-        
-        if not object_json.get('objects'):
-            raise IICSPullError(f"Object {mapping_name} not found in path {path_name}")
+            previous_hash = commit_json['commits'][1]['hash']
+            
+            lookup_url = f"{self.pod_url}/public/core/v3/lookup"
+            body = {"objects": [{"path": f"{path_name}/{mapping_name}", "type": object_type.upper()}]}
+            
+            o = requests.post(lookup_url, headers=self.headers, json=body)
+            o.raise_for_status()
+            object_json = o.json()
+            
+            if not object_json.get('objects'):
+                raise IICSPullError(f"Object {mapping_name} not found in path {path_name}")
                 
-        object_id = object_json['objects'][0]['id']
-        
-        logger.info(f"Previous hash found: {previous_hash}. Object ID: {object_id}")
-        
-        return self.pull_by_commit_object(previous_hash, object_id)
+            object_id = object_json['objects'][0]['id']
+            
+            logger.info(f"Previous hash found: {previous_hash}. Object ID: {object_id}")
+            
+            return self.pull_by_commit_object(previous_hash, object_id)
+            
+        except Exception as e:
+            logger.error(f"Rollback failed: {e}")
+            raise
