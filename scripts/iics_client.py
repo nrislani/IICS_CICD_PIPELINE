@@ -37,8 +37,7 @@ class IICSClient:
         self.password = password
         self.session_id = session_id
         self.headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Content-Type": "application/json; charset=utf-8"
         }
         if self.session_id:
             self.headers["INFA-SESSION-ID"] = self.session_id
@@ -52,38 +51,18 @@ class IICSClient:
             base = base[: -len("/saas")]
         return base
 
-    def _core_v3_base_urls(self) -> list[str]:
+    def _core_v3_base_url(self) -> str:
+        """Returns the base URL for core v3 endpoints. Uses pod_url directly (with /saas if present)."""
         if not self.pod_url:
             raise IICSConfigError("Pod URL is required.")
-        base = self.pod_url.rstrip("/")
-        if base.endswith("/saas"):
-            base_no_saas = base[: -len("/saas")]
-            base_with_saas = base
-        else:
-            base_no_saas = base
-            base_with_saas = f"{base}/saas"
-        if base_no_saas == base_with_saas:
-            return [base_no_saas]
-        return [base_no_saas, base_with_saas]
+        return self.pod_url.rstrip("/")
 
     def _core_v3_request(self, method: str, path: str, **kwargs) -> requests.Response:
-        last_http_error: Optional[requests.HTTPError] = None
-        for base in self._core_v3_base_urls():
-            url = f"{base}{path}"
-            logger.debug(f"Trying {method} {url}")
-            response = requests.request(method, url, headers=self.headers, **kwargs)
-            logger.debug(f"Response status: {response.status_code}")
-            if response.status_code == 404:
-                try:
-                    response.raise_for_status()
-                except requests.HTTPError as e:
-                    last_http_error = e
-                continue
-            response.raise_for_status()
-            return response
-        if last_http_error is not None:
-            raise last_http_error
-        raise IICSPullError(f"Core v3 request failed for {path}")
+        url = f"{self._core_v3_base_url()}{path}"
+        logger.info(f"Core v3 request: {method} {url}")
+        response = requests.request(method, url, headers=self.headers, **kwargs)
+        response.raise_for_status()
+        return response
 
     @retry(
         stop=stop_after_attempt(3),
@@ -146,9 +125,9 @@ class IICSClient:
         if not self.pod_url or not self.session_id:
             raise IICSConfigError("Pod URL and Session ID are required.")
 
-        body = {"commitHash": commit_hash, "searchCustomRepositories": True}
+        body = {"commitHash": commit_hash}
         
-        logger.info(f"Syncing commit {commit_hash} to Org (searchCustomRepositories=True)")
+        logger.info(f"Syncing commit {commit_hash} to Org")
         
         try:
             response = self._core_v3_request("POST", "/public/core/v3/pullByCommitHash", json=body)
@@ -157,28 +136,9 @@ class IICSClient:
             
             self._wait_for_pull_completion(pull_action_id)
             
-        except requests.HTTPError as e:
-            if e.response is not None and e.response.status_code == 404:
-                logger.warning("pullByCommitHash endpoint not found (404). Falling back to pull_all (general sync).")
-                self.pull_all()
-                return
-            logger.error(f"Pull by commit failed: {e}")
-            raise IICSPullError(f"Failed to pull commit {commit_hash}: {e}") from e
         except Exception as e:
             logger.error(f"Pull by commit failed: {e}")
             raise IICSPullError(f"Failed to pull commit {commit_hash}: {e}") from e
-
-    def pull_all(self) -> None:
-        """
-        Fallback when pullByCommitHash is not available.
-        Since the commit has already been pushed to the branch, IICS should sync automatically.
-        We log a warning and continue - the objects should be available after IICS auto-sync.
-        """
-        logger.warning("pullByCommitHash not available. Assuming IICS will auto-sync with the Git repository.")
-        logger.info("Waiting 30 seconds for IICS to sync with the repository...")
-        import time
-        time.sleep(30)
-        logger.info("Continuing with deployment - objects should be synced now.")
 
     def pull_by_commit_object(self, commit_hash: str, object_id: str) -> None:
         """
