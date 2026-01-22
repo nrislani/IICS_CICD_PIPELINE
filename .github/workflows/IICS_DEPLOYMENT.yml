@@ -6,9 +6,12 @@
 # arising from any such use to the fullest extent permitted by law.
 
 name: DEPLOY_MAPPING_TASK
-
+ 
 # Controls when the workflow will run
 on:
+  push:
+    branches:
+      - dev
   workflow_dispatch:
     inputs:
       committed_sha:
@@ -19,7 +22,7 @@ on:
         description: "Repository Name (owner/repo)"
         type: string
         required: true
-        default: "marouannemri-lang/IICS_CICD_PIPELINE"
+        default: "owner/repo"
       resource_type:
         description: "IICS Resource Type (MTT=Mapping Task, DSS=Sync Task)"
         type: string
@@ -38,9 +41,9 @@ env:
 
   # This is overriding until we connect the repository with a workflow_dispatch
 
-  COMMIT_HASH: ${{ github.event.inputs.committed_sha }}
-  REPO_NAME: ${{ github.event.inputs.repo_name }}
-  RESOURCE_TYPE: ${{ github.event.inputs.resource_type }}
+  COMMIT_HASH: ${{ github.event.inputs.committed_sha || github.sha }}
+  REPO_NAME: ${{ github.event.inputs.repo_name || github.repository }}
+  RESOURCE_TYPE: ${{ github.event.inputs.resource_type || 'MTT' }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -49,6 +52,7 @@ jobs:
     name: Review Development Code
     environment:
       name: development
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, 'deploy') }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -79,6 +83,7 @@ jobs:
     name: Complete uat promotion
     environment:
       name: uat
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     needs: dev_build
     runs-on: ubuntu-latest
 
@@ -105,7 +110,7 @@ jobs:
             pip install -r IICS_CICD_PIPELINE/requirements.txt
 
       - name: Set default username
-        run: git config --global user.email "nrislani@informatica.com"; git config --global user.name "nrislani"
+        run: git config --global user.email "github-actions[bot]@users.noreply.github.com"; git config --global user.name "github-actions[bot]"
 
       - name: Commit changes to UAT
         run: cd ./iics && git fetch --all && (git cherry-pick --strategy=recursive -X theirs ${COMMIT_HASH} || { git checkout --theirs . && git add . && git cherry-pick --continue; }) && git pull && git push
