@@ -37,7 +37,8 @@ class IICSClient:
         self.password = password
         self.session_id = session_id
         self.headers = {
-            "Content-Type": "application/json; charset=utf-8"
+            "Content-Type": "application/json; charset=utf-8",
+            "Accept": "application/json"
         }
         if self.session_id:
             self.headers["INFA-SESSION-ID"] = self.session_id
