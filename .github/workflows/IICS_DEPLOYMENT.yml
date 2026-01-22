@@ -88,9 +88,10 @@ jobs:
 
   uat_commit:
     name: Complete uat promotion
+    needs: dev_build
     environment:
       name: IICS_USERNAME
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && contains(github.event.head_commit.message, 'deploy')) }}
+    if: ${{ always() && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && contains(github.event.head_commit.message, 'deploy'))) }}
     env:
       UAT_IICS_USERNAME: ${{ secrets.UAT_IICS_USERNAME }}
       UAT_IICS_PASSWORD: ${{ secrets.UAT_IICS_PASSWORD }}
