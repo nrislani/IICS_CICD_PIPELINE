@@ -167,7 +167,7 @@
     }
   ],
   "verbose" : false,
-  "lastRunTime" : 1769081074000,
+  "lastRunTime" : 1769081115000,
   "mappingId" : "@8ctcrc81ua5gWgyl9j24g3",
   "mappingTemplateName" : "Mapping26",
   "inOutParameters" : [
@@ -191,5 +191,5 @@
   "allowMaxFieldLength" : false,
   "specialCharacterSupport" : false,
   "midstreamPreview" : false,
-  "vcsExportTime" : "2026-01-22 03:24:58 PST"
+  "vcsExportTime" : "2026-01-22 03:29:02 PST"
 }
