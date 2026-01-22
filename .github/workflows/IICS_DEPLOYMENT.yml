@@ -19,7 +19,7 @@ on:
         description: "Repository Name (owner/repo)"
         type: string
         required: true
-        default: "nrislani/iics"
+        default: "marouannemri-lang/IICS_CICD_PIPELINE"
       resource_type:
         description: "IICS Resource Type (MTT=Mapping Task, DSS=Sync Task)"
         type: string
