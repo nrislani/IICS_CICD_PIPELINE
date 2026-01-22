@@ -41,6 +41,14 @@ class IICSClient:
             self.headers["INFA-SESSION-ID"] = self.session_id
             self.headers["icSessionId"] = self.session_id
 
+    def _api_v2_base_url(self) -> str:
+        if not self.pod_url:
+            raise IICSConfigError("Pod URL is required.")
+        base = self.pod_url.rstrip("/")
+        if base.endswith("/saas"):
+            base = base[: -len("/saas")]
+        return base
+
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=2, max=10),
@@ -223,13 +231,18 @@ class IICSClient:
         if not self.pod_url or not self.session_id:
             raise IICSConfigError("Pod URL and Session ID are required.")
 
-        url = f"{self.pod_url}/api/v2/job/"
+        url = f"{self._api_v2_base_url()}/api/v2/job/"
         body = {"@type": "job", "taskId": task_id, "taskType": task_type}
         
         logger.info(f"Starting job for task {task_id} of type {task_type}")
         
         response = requests.post(url, headers=self.headers, json=body)
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except requests.RequestException as e:
+            logger.error(f"Job start failed: {e}")
+            logger.error(f"Response: {response.text}")
+            raise
         job_data = response.json()
         
         run_id = job_data.get('runId')
@@ -249,13 +262,20 @@ class IICSClient:
             0 on success
         """
         state = 0
-        url = f"{self.pod_url}/api/v2/activity/activityLog?runId={run_id}"
+        url = f"{self._api_v2_base_url()}/api/v2/activity/activityLog?runId={run_id}"
         
         while state == 0:
             time.sleep(20)
             logger.info(f"Checking job status for runId {run_id}...")
             response = requests.get(url, headers=self.headers)
-            response.raise_for_status()
+            try:
+                response.raise_for_status()
+            except requests.RequestException as e:
+                logger.error(f"Activity log request failed: {e}")
+                logger.error(f"Response: {response.text}")
+                if response.status_code == 403:
+                    logger.error("Forbidden: Check your credentials and permissions")
+                raise
             activity_log = response.json()
             
             if activity_log:
