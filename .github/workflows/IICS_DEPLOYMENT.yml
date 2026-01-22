@@ -73,6 +73,9 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Login to development
+        env:
+          IICS_USERNAME: ${{ secrets.IICS_USERNAME }}
+          IICS_PASSWORD: ${{ secrets.IICS_PASSWORD }}
         run: |
             python ./scripts/iics_auth.py --target dev
 
@@ -123,6 +126,9 @@ jobs:
         run: pwd
           
       - name: Login to UAT
+        env:
+          UAT_IICS_USERNAME: ${{ secrets.UAT_IICS_USERNAME }}
+          UAT_IICS_PASSWORD: ${{ secrets.UAT_IICS_PASSWORD }}
         run: python ./IICS_CICD_PIPELINE/scripts/iics_auth.py --target uat
 
       - name: Sync and test UAT deployment
