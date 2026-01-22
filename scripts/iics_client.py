@@ -154,8 +154,8 @@ class IICSClient:
             
         except requests.HTTPError as e:
             if e.response is not None and e.response.status_code == 404:
-                logger.warning("pullByCommitHash endpoint not found (404). Falling back to pull with explicit object list.")
-                self.pull_by_commit_objects(commit_hash)
+                logger.warning("pullByCommitHash endpoint not found (404). Falling back to pull_all (general sync).")
+                self.pull_all()
                 return
             logger.error(f"Pull by commit failed: {e}")
             raise IICSPullError(f"Failed to pull commit {commit_hash}: {e}") from e
@@ -163,21 +163,15 @@ class IICSClient:
             logger.error(f"Pull by commit failed: {e}")
             raise IICSPullError(f"Failed to pull commit {commit_hash}: {e}") from e
 
-    def pull_by_commit_objects(self, commit_hash: str) -> None:
-        """Fallback sync: pulls all objects in a commit using the /pull endpoint."""
-        objects = self.get_commit_objects(commit_hash)
-        object_ids: list[str] = []
-        for obj in objects:
-            obj_id = obj.get('id')
-            if obj_id:
-                object_ids.append(obj_id)
- 
-        if not object_ids:
-            raise IICSPullError(f"No object IDs found in commit {commit_hash} to pull.")
+    def pull_all(self) -> None:
+        """Triggers a general pull to sync IICS with the Git repository (no specific commit hash)."""
+        if not self.pod_url or not self.session_id:
+            raise IICSConfigError("Pod URL and Session ID are required.")
 
-        body = {"commitHash": commit_hash, "objects": [{"id": oid} for oid in object_ids]}
-        logger.info(f"Syncing {len(object_ids)} objects from commit {commit_hash}")
- 
+        logger.info("Triggering general pull to sync with Git repository")
+        
+        # Use /pull endpoint without commitHash to pull all pending changes
+        body = {}
         response = self._core_v3_request("POST", "/public/core/v3/pull", json=body)
         pull_json = response.json()
         pull_action_id = pull_json['pullActionId']
