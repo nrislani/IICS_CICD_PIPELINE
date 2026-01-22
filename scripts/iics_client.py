@@ -36,7 +36,10 @@ class IICSClient:
         self.username = username
         self.password = password
         self.session_id = session_id
-        self.headers = {"Content-Type": "application/json; charset=utf-8"}
+        self.headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
         if self.session_id:
             self.headers["INFA-SESSION-ID"] = self.session_id
             self.headers["icSessionId"] = self.session_id
@@ -67,7 +70,9 @@ class IICSClient:
         last_http_error: Optional[requests.HTTPError] = None
         for base in self._core_v3_base_urls():
             url = f"{base}{path}"
+            logger.debug(f"Trying {method} {url}")
             response = requests.request(method, url, headers=self.headers, **kwargs)
+            logger.debug(f"Response status: {response.status_code}")
             if response.status_code == 404:
                 try:
                     response.raise_for_status()
