@@ -1,0 +1,110 @@
+{
+  "objectInfo" : {
+    "id" : "3ceMow2glwegs9vQSUufEf",
+    "name" : "MappingTask11",
+    "type" : "MTT",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 0,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "0118KW0Z000000000020"
+      },
+      "contextAttributes" : [ {
+        "name" : "id",
+        "value" : "@1"
+      } ],
+      "additionalInfo" : {
+        "description" : null,
+        "contentType" : "JSON",
+        "documentState" : "VALID"
+      }
+    }
+  },
+  "dataFileExtension" : "zip",
+  "updateTime" : "2026-01-22T12:14:07.014Z",
+  "objectRefs" : [ {
+    "id" : "jT0QfWvKJUPbtWZHjDLPaz",
+    "name" : "HS_FactureX",
+    "type" : "HSCHEMA",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 0,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "0118KW36000000000011"
+      },
+      "contextAttributes" : null,
+      "additionalInfo" : {
+        "description" : "",
+        "contentType" : "JSON",
+        "documentState" : "VALID"
+      }
+    },
+    "path" : "/Explore/_DMT_CDMP_Segmentation/Guide (New release)"
+  }, {
+    "id" : "6JnSnEerkIIeE9lL2IQ4C9",
+    "name" : "UDP QA Data Foundation Secure Agent Group",
+    "type" : "AgentGroup",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 0,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "0118KW2500000000000I"
+      },
+      "contextAttributes" : null,
+      "additionalInfo" : {
+        "description" : "ddd",
+        "contentType" : "JSON",
+        "documentState" : "VALID"
+      }
+    },
+    "path" : "/SYS"
+  }, {
+    "id" : "8ctcrc81ua5gWgyl9j24g3",
+    "name" : "Mapping26",
+    "type" : "DTEMPLATE",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 0,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "0118KW1700000000003C"
+      },
+      "contextAttributes" : null,
+      "additionalInfo" : {
+        "description" : "",
+        "contentType" : "JSON",
+        "documentState" : "VALID"
+      }
+    },
+    "path" : "/Explore/CB"
+  }, {
+    "id" : "izSVfHfBGKGjui0zKAmkEN",
+    "name" : "Flat_address",
+    "type" : "Connection",
+    "metadata" : {
+      "modelVersion" : {
+        "major" : 0,
+        "minor" : 0
+      },
+      "repoInfo" : {
+        "repoHandle" : "0118KW0B000000000024"
+      },
+      "contextAttributes" : null,
+      "additionalInfo" : {
+        "description" : "dddd",
+        "contentType" : "JSON",
+        "documentState" : "COMPLETE"
+      }
+    },
+    "path" : "/SYS"
+  } ],
+  "readableFileExtension" : "json",
+  "readableFilePresent" : true
+}
