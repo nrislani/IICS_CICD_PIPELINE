@@ -16,14 +16,14 @@
         "value" : "@1"
       } ],
       "additionalInfo" : {
-        "description" : "This code will split the xml and generate a multiple file with multiple XMLs in it.",
+        "description" : "This code will split the xml and generate a multiple file with multiple XMLs in it.ddd",
         "contentType" : "JSON",
         "documentState" : "VALID"
       }
     }
   },
   "dataFileExtension" : "zip",
-  "updateTime" : "2026-01-22T10:05:08.957Z",
+  "updateTime" : "2026-01-22T10:54:18.772Z",
   "objectRefs" : [ {
     "id" : "7YI3tWLOBGphpkT3cBmIyt",
     "name" : "EDX3_ORA_INFADEMO_DATA",

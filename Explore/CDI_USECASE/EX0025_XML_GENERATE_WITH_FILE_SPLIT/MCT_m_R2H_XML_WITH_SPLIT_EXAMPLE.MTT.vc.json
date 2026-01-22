@@ -1,6 +1,6 @@
 {
   "name" : "MCT_m_R2H_XML_WITH_SPLIT_EXAMPLE",
-  "description" : "This code will split the xml and generate a multiple file with multiple XMLs in it.",
+  "description" : "This code will split the xml and generate a multiple file with multiple XMLs in it.ddd",
   "runtimeEnvironmentId" : "@6yVzlGdyrwVebwR8BbalMj",
   "runtimeEnvironmentName" : "edx",
   "maxLogs" : 10,
@@ -39,6 +39,7 @@
       "objectName" : "DUMMY_Source",
       "useExactSrcNames" : false,
       "userUpdated" : true,
+      "fetchMode" : "ORIGINAL",
       "runtimeParameterData" : {
         "connectionRuntimeParameter" : false,
         "objectRuntimeParameter" : false
@@ -94,6 +95,7 @@
       "objectLabel" : "TGT_FILE_NAME",
       "useExactSrcNames" : false,
       "userUpdated" : true,
+      "fetchMode" : "ORIGINAL",
       "runtimeParameterData" : {
         "connectionRuntimeParameter" : false,
         "objectRuntimeParameter" : false
@@ -127,6 +129,7 @@
       "retainFieldMetadata" : false,
       "useExactSrcNames" : false,
       "userUpdated" : true,
+      "fetchMode" : "ORIGINAL",
       "runtimeParameterData" : {
         "connectionRuntimeParameter" : false,
         "objectRuntimeParameter" : false
@@ -190,5 +193,5 @@
   "allowMaxFieldLength" : false,
   "specialCharacterSupport" : false,
   "midstreamPreview" : false,
-  "vcsExportTime" : "2026-01-22 11:05:08 CET"
+  "vcsExportTime" : "2026-01-22 02:54:18 PST"
 }
