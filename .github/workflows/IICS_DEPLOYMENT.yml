@@ -32,13 +32,7 @@ on:
 env:
   IICS_LOGIN_URL: https://dm-em.informaticacloud.com
   IICS_POD_URL: https://emw1.dm-em.informaticacloud.com/saas
- 
-  IICS_USERNAME: ${{ secrets.IICS_USERNAME }}
-  IICS_PASSWORD: ${{ secrets.IICS_PASSWORD }}
-
-  UAT_IICS_USERNAME: ${{ secrets.UAT_IICS_USERNAME }}
-  UAT_IICS_PASSWORD: ${{ secrets.UAT_IICS_PASSWORD }}
-
+  
   # This is overriding until we connect the repository with a workflow_dispatch
 
   COMMIT_HASH: ${{ github.event.inputs.committed_sha || github.sha }}
@@ -52,6 +46,9 @@ jobs:
     name: Review Development Code
     environment:
       name: IICS_USERNAME
+    env:
+      IICS_USERNAME: ${{ secrets.IICS_USERNAME }}
+      IICS_PASSWORD: ${{ secrets.IICS_PASSWORD }}
     if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, 'deploy') }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -84,6 +81,10 @@ jobs:
     environment:
       name: uat
     if: ${{ github.event_name == 'workflow_dispatch' }}
+    env:
+      UAT_IICS_USERNAME: ${{ secrets.UAT_IICS_USERNAME }}
+      UAT_IICS_PASSWORD: ${{ secrets.UAT_IICS_PASSWORD }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
     needs: dev_build
     runs-on: ubuntu-latest
 
