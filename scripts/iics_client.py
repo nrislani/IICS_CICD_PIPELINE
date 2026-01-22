@@ -49,6 +49,14 @@ class IICSClient:
             base = base[: -len("/saas")]
         return base
 
+    def _core_v3_base_url(self) -> str:
+        if not self.pod_url:
+            raise IICSConfigError("Pod URL is required.")
+        base = self.pod_url.rstrip("/")
+        if base.endswith("/saas"):
+            base = base[: -len("/saas")]
+        return base
+
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=2, max=10),
@@ -110,7 +118,7 @@ class IICSClient:
         if not self.pod_url or not self.session_id:
             raise IICSConfigError("Pod URL and Session ID are required.")
 
-        url = f"{self.pod_url}/public/core/v3/pullByCommitHash"
+        url = f"{self._core_v3_base_url()}/public/core/v3/pullByCommitHash"
         body = {"commitHash": commit_hash}
         
         logger.info(f"Syncing commit {commit_hash} to Org")
@@ -123,9 +131,38 @@ class IICSClient:
             
             self._wait_for_pull_completion(pull_action_id)
             
+        except requests.HTTPError as e:
+            if e.response is not None and e.response.status_code == 404:
+                logger.warning("pullByCommitHash endpoint not found (404). Falling back to pull with explicit object list.")
+                self.pull_by_commit_objects(commit_hash)
+                return
+            logger.error(f"Pull by commit failed: {e}")
+            raise IICSPullError(f"Failed to pull commit {commit_hash}: {e}") from e
         except Exception as e:
             logger.error(f"Pull by commit failed: {e}")
             raise IICSPullError(f"Failed to pull commit {commit_hash}: {e}") from e
+
+    def pull_by_commit_objects(self, commit_hash: str) -> None:
+        """Fallback sync: pulls all objects in a commit using the /pull endpoint."""
+        objects = self.get_commit_objects(commit_hash)
+        object_ids: list[str] = []
+        for obj in objects:
+            obj_id = obj.get('id')
+            if obj_id:
+                object_ids.append(obj_id)
+ 
+        if not object_ids:
+            raise IICSPullError(f"No object IDs found in commit {commit_hash} to pull.")
+
+        url = f"{self._core_v3_base_url()}/public/core/v3/pull"
+        body = {"commitHash": commit_hash, "objects": [{"id": oid} for oid in object_ids]}
+        logger.info(f"Syncing {len(object_ids)} objects from commit {commit_hash}")
+ 
+        response = requests.post(url, headers=self.headers, json=body)
+        response.raise_for_status()
+        pull_json = response.json()
+        pull_action_id = pull_json['pullActionId']
+        self._wait_for_pull_completion(pull_action_id)
 
     def pull_by_commit_object(self, commit_hash: str, object_id: str) -> None:
         """
@@ -138,7 +175,7 @@ class IICSClient:
         if not self.pod_url or not self.session_id:
             raise IICSConfigError("Pod URL and Session ID are required.")
 
-        url = f"{self.pod_url}/public/core/v3/pull"
+        url = f"{self._core_v3_base_url()}/public/core/v3/pull"
         body = {"commitHash": commit_hash, "objects": [{"id": object_id}]}
         
         logger.info(f"Syncing object {object_id} from commit {commit_hash}")
@@ -162,7 +199,7 @@ class IICSClient:
             pull_action_id: The ID of the pull action to monitor
         """
         status = 'IN_PROGRESS'
-        url = f"{self.pod_url}/public/core/v3/sourceControlAction/{pull_action_id}"
+        url = f"{self._core_v3_base_url()}/public/core/v3/sourceControlAction/{pull_action_id}"
         
         while status == 'IN_PROGRESS':
             logger.info("Checking pull status...")
@@ -201,7 +238,7 @@ class IICSClient:
         if not self.pod_url or not self.session_id:
             raise IICSConfigError("Pod URL and Session ID are required.")
 
-        url = f"{self.pod_url}/public/core/v3/commit/{commit_hash}"
+        url = f"{self._core_v3_base_url()}/public/core/v3/commit/{commit_hash}"
         logger.info(f"Getting objects for commit {commit_hash}")
         
         response = requests.get(url, headers=self.headers)
@@ -300,7 +337,7 @@ class IICSClient:
         """Logs out from IICS."""
         if self.pod_url and self.session_id:
             try:
-                url = f"{self.pod_url}/public/core/v3/logout"
+                url = f"{self._core_v3_base_url()}/public/core/v3/logout"
                 requests.post(url, headers=self.headers)
                 logger.info("Logged out successfully")
             except Exception as e:
@@ -326,7 +363,7 @@ class IICSClient:
         logger.info(f"Rolling back mapping {mapping_name} in path {path_name}")
 
         query = f"path=='{path_name}/{mapping_name}' and type=='{object_type}'"
-        history_url = f"{self.pod_url}/public/core/v3/commitHistory?q={query}"
+        history_url = f"{self._core_v3_base_url()}/public/core/v3/commitHistory?q={query}"
         
         try:
             r = requests.get(history_url, headers=self.headers)
@@ -338,7 +375,7 @@ class IICSClient:
                 
             previous_hash = commit_json['commits'][1]['hash']
             
-            lookup_url = f"{self.pod_url}/public/core/v3/lookup"
+            lookup_url = f"{self._core_v3_base_url()}/public/core/v3/lookup"
             body = {"objects": [{"path": f"{path_name}/{mapping_name}", "type": object_type.upper()}]}
             
             o = requests.post(lookup_url, headers=self.headers, json=body)
